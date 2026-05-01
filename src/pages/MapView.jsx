@@ -1,22 +1,23 @@
 /**
  * Sanos y Salvos — Map View Page
- * Interactive Leaflet map with pet report markers.
+ * Interactive Leaflet map with pet report markers in Neo-Brutalist style.
  */
 
 import { useState, useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, CircleMarker } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
-import { MapPin, Filter, Loader } from 'lucide-react';
+import { MapPin, Loader } from 'lucide-react';
 import { geoAPI } from '../api/client';
+import 'leaflet/dist/leaflet.css'; // CRITICAL: Fixes broken map tiles
 
-// Custom marker icons
+// Brutalist custom marker icons
 const lostIcon = new L.DivIcon({
-  html: '<div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#ef4444,#dc2626);display:flex;align-items:center;justify-content:center;border:2px solid rgba(255,255,255,0.3);box-shadow:0 0 12px rgba(239,68,68,0.4);font-size:14px;">🔴</div>',
-  iconSize: [28, 28], className: '',
+  html: '<div style="width:36px;height:36px;background:var(--accent-orange);border:4px solid var(--text-primary);display:flex;align-items:center;justify-content:center;box-shadow:4px 4px 0px var(--text-primary);transform:rotate(-5deg);font-weight:900;font-family:Syne;color:white;">P</div>',
+  iconSize: [36, 36], className: '',
 });
 const foundIcon = new L.DivIcon({
-  html: '<div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#10b981,#059669);display:flex;align-items:center;justify-content:center;border:2px solid rgba(255,255,255,0.3);box-shadow:0 0 12px rgba(16,185,129,0.4);font-size:14px;">🟢</div>',
-  iconSize: [28, 28], className: '',
+  html: '<div style="width:36px;height:36px;background:var(--accent-green);border:4px solid var(--text-primary);display:flex;align-items:center;justify-content:center;box-shadow:4px 4px 0px var(--text-primary);transform:rotate(5deg);font-weight:900;font-family:Syne;color:white;">E</div>',
+  iconSize: [36, 36], className: '',
 });
 
 export default function MapView() {
@@ -27,7 +28,7 @@ export default function MapView() {
   useEffect(() => {
     geoAPI.getReports()
       .then(res => setReports(res.data))
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setLoading(false));
   }, []);
 
@@ -35,63 +36,89 @@ export default function MapView() {
     reports.filter(r => r.report_type === filter);
 
   return (
-    <div className="page">
-      <div className="container" style={{ paddingTop: '20px', paddingBottom: '40px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '12px' }}>
-          <div>
-            <h1 style={{ fontSize: '1.6rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <MapPin size={24} color="var(--emerald-400)" /> Mapa de Reportes
-            </h1>
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-              {filtered.length} reportes activos
-            </p>
-          </div>
+    <div style={{ paddingBottom: '80px' }}>
 
-          <div style={{ display: 'flex', gap: '6px' }}>
-            {[
-              { value: 'todos', label: 'Todos' },
-              { value: 'perdido', label: '🔴 Perdidos' },
-              { value: 'encontrado', label: '🟢 Encontrados' },
-            ].map(f => (
-              <button key={f.value} onClick={() => setFilter(f.value)}
-                className={`btn btn-sm ${filter === f.value ? 'btn-primary' : 'btn-secondary'}`}>
-                {f.label}
-              </button>
-            ))}
+      {/* Header */}
+      <div style={{ background: 'white', borderBottom: 'var(--border-thick)', padding: '40px 0' }}>
+        <div className="container">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '24px' }}>
+
+            <div>
+              <h1 className="display-font" style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', display: 'flex', alignItems: 'center', gap: '16px' }}>
+                <MapPin size={48} color="var(--text-primary)" strokeWidth={3} /> MAPA DE REPORTES
+              </h1>
+              <p style={{ fontSize: '1.2rem', fontWeight: 600, color: 'var(--text-muted)' }}>
+                {filtered.length} reportes activos
+              </p>
+            </div>
+
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', background: 'var(--bg-secondary)', padding: '8px', border: 'var(--border-thick)' }}>
+              {[
+                { value: 'todos', label: 'Todos' },
+                { value: 'perdido', label: 'Perdidos', color: 'var(--accent-orange)' },
+                { value: 'encontrado', label: 'Encontrados', color: 'var(--accent-green)' },
+              ].map(f => (
+                <button key={f.value} onClick={() => setFilter(f.value)}
+                  className={`brutal-btn ${filter === f.value ? '' : 'secondary'}`}
+                  style={{
+                    padding: '8px 16px', fontSize: '1rem',
+                    background: filter === f.value ? (f.color || 'var(--text-primary)') : 'white',
+                    color: filter === f.value ? 'white' : 'var(--text-primary)',
+                    boxShadow: filter === f.value ? '2px 2px 0px var(--text-primary)' : 'none'
+                  }}>
+                  {f.color && <div style={{ width: 12, height: 12, background: f.color, border: '2px solid var(--text-primary)', borderRadius: '50%', display: 'inline-block', marginRight: 6 }}></div>}
+                  {f.label}
+                </button>
+              ))}
+            </div>
+
           </div>
         </div>
+      </div>
 
-        <div className="glass-card" style={{ overflow: 'hidden', height: 'calc(100vh - 220px)' }}>
+      {/* Map Container */}
+      <div className="container" style={{ marginTop: '40px' }}>
+        <div className="animate-in delay-1" style={{
+          border: 'var(--border-thick)',
+          background: 'var(--bg-secondary)',
+          boxShadow: '16px 16px 0px var(--text-primary)',
+          height: '70vh',
+          position: 'relative'
+        }}>
           {loading ? (
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
-              <Loader size={32} className="animate-spin" style={{ color: 'var(--emerald-400)' }} />
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+              <Loader size={64} className="animate-spin" style={{ color: 'var(--text-primary)' }} />
+              <h2 className="display-font" style={{ marginTop: '20px' }}>CARGANDO MAPA...</h2>
             </div>
           ) : (
-            <MapContainer center={[-33.4489, -70.6693]} zoom={12}
-              style={{ height: '100%', width: '100%' }}>
+            <MapContainer center={[-33.4489, -70.6693]} zoom={12} style={{ height: '100%', width: '100%', zIndex: 1 }}>
               <TileLayer
-                url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+                url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
                 attribution='&copy; OpenStreetMap'
               />
               {filtered.map((r, i) => (
                 <Marker key={i} position={[r.lat, r.lng]}
                   icon={r.report_type === 'perdido' ? lostIcon : foundIcon}>
-                  <Popup>
-                    <div style={{ minWidth: '200px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                        <span className={`badge badge-${r.report_type === 'perdido' ? 'lost' : 'found'}`}>
+                  <Popup className="brutal-popup">
+                    <div style={{ minWidth: '220px', fontFamily: 'DM Sans', color: 'var(--text-primary)' }}>
+                      <div style={{ borderBottom: '2px solid var(--text-primary)', paddingBottom: '8px', marginBottom: '8px' }}>
+                        <div className="badge" style={{
+                          background: r.report_type === 'perdido' ? 'var(--accent-orange)' : 'var(--accent-green)',
+                          color: 'white', border: '2px solid var(--text-primary)', marginBottom: '4px'
+                        }}>
                           {r.report_type}
-                        </span>
-                        <strong>{r.pet_name || 'Sin nombre'}</strong>
+                        </div>
+                        <h3 className="display-font" style={{ fontSize: '1.2rem', margin: 0 }}>{r.pet_name || 'Sin nombre'}</h3>
                       </div>
-                      {r.photo_url && <img src={r.photo_url} alt="" style={{ width: '100%', borderRadius: '8px', marginBottom: '8px' }} />}
-                      <p style={{ margin: '4px 0', fontSize: '0.85rem' }}>
-                        <strong>Especie:</strong> {r.species} {r.breed && `(${r.breed})`}
-                      </p>
-                      <p style={{ margin: '4px 0', fontSize: '0.85rem' }}>
-                        <strong>Color:</strong> {r.color} | <strong>Tamaño:</strong> {r.size}
-                      </p>
-                      {r.address && <p style={{ margin: '4px 0', fontSize: '0.85rem' }}><strong>📍</strong> {r.address}</p>}
+
+                      {r.photo_url && (
+                        <div style={{ border: '2px solid var(--text-primary)', marginBottom: '8px', overflow: 'hidden' }}>
+                          <img src={r.photo_url} alt="" style={{ width: '100%', display: 'block' }} />
+                        </div>
+                      )}
+
+                      <p style={{ margin: '4px 0', fontSize: '0.9rem', fontWeight: 600 }}>{r.species} • {r.breed}</p>
+                      <p style={{ margin: '4px 0', fontSize: '0.9rem', color: 'var(--text-muted)' }}>{r.color} | {r.size}</p>
                     </div>
                   </Popup>
                 </Marker>
@@ -101,15 +128,16 @@ export default function MapView() {
         </div>
 
         {/* Legend */}
-        <div style={{ display: 'flex', gap: '20px', marginTop: '16px', justifyContent: 'center' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-            <div style={{ width: 12, height: 12, borderRadius: '50%', background: '#ef4444' }} /> Perdido
+        <div style={{ display: 'flex', gap: '32px', marginTop: '40px', justifyContent: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '1rem', fontWeight: 700 }}>
+            <div style={{ width: 24, height: 24, background: 'var(--accent-orange)', border: '2px solid var(--text-primary)' }} /> PERDIDO
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-            <div style={{ width: 12, height: 12, borderRadius: '50%', background: '#10b981' }} /> Encontrado
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '1rem', fontWeight: 700 }}>
+            <div style={{ width: 24, height: 24, background: 'var(--accent-green)', border: '2px solid var(--text-primary)' }} /> ENCONTRADO
           </div>
         </div>
       </div>
+
     </div>
   );
 }
