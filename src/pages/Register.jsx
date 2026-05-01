@@ -31,65 +31,71 @@ export default function Register() {
   };
 
   return (
-    <div className="page" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
-      <div className="glass-card" style={{ padding: '40px', width: '100%', maxWidth: '420px' }}>
-        <div style={{ textAlign: 'center', marginBottom: '28px' }}>
-          <div style={{
-            width: 56, height: 56, borderRadius: 'var(--radius-lg)',
-            background: 'var(--gradient-primary)', display: 'flex',
-            alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px',
+    <div style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }}>
+      <div className="brutal-card animate-in" style={{ width: '100%', maxWidth: '500px', padding: '50px 40px' }}>
+        
+        <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+          <div style={{ 
+            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+            width: '60px', height: '60px', background: 'var(--accent-orange)', color: 'white',
+            border: 'var(--border-thick)', borderRadius: 'var(--radius-sharp)', marginBottom: '20px'
           }}>
-            <PawPrint size={26} color="white" />
+            <PawPrint size={32} />
           </div>
-          <h1 style={{ fontSize: '1.5rem', marginBottom: '6px' }}>Crear Cuenta</h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>Únete a la comunidad</p>
+          <h1 className="display-font" style={{ fontSize: '2.5rem' }}>CREAR CUENTA</h1>
+          <p style={{ fontWeight: 600, color: 'var(--text-muted)' }}>Únete a la comunidad de rescate</p>
         </div>
 
         {error && (
-          <div style={{
-            padding: '10px 16px', borderRadius: 'var(--radius-md)',
-            background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)',
-            color: 'var(--red-400)', fontSize: '0.85rem', marginBottom: '20px',
-          }}>{error}</div>
+          <div style={{ 
+            background: 'var(--accent-orange)', color: 'white', padding: '16px',
+            border: 'var(--border-thick)', fontWeight: 700, marginBottom: '24px',
+            textAlign: 'center'
+          }}>
+            {error}
+          </div>
         )}
 
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-          <div className="input-group">
-            <label><User size={14} style={{ display: 'inline', verticalAlign: 'middle', marginRight: 6 }} />Nombre completo</label>
-            <input name="full_name" className="input-field" placeholder="Juan Pérez"
-              value={form.full_name} onChange={handleChange} />
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          
+          <div>
+            <label className="display-font" style={{ display: 'block', fontSize: '1.1rem', marginBottom: '8px' }}>NOMBRE COMPLETO</label>
+            <input name="full_name" className="brutal-input" placeholder="Ej. Juan Pérez"
+              value={form.full_name} onChange={handleChange} required />
           </div>
-          <div className="input-group">
-            <label><User size={14} style={{ display: 'inline', verticalAlign: 'middle', marginRight: 6 }} />Usuario</label>
-            <input name="username" className="input-field" placeholder="juanperez"
+
+          <div>
+            <label className="display-font" style={{ display: 'block', fontSize: '1.1rem', marginBottom: '8px' }}>USUARIO</label>
+            <input name="username" className="brutal-input" placeholder="juanperez"
               value={form.username} onChange={handleChange} required />
           </div>
-          <div className="input-group">
-            <label><Mail size={14} style={{ display: 'inline', verticalAlign: 'middle', marginRight: 6 }} />Email</label>
-            <input type="email" name="email" className="input-field" placeholder="tu@email.com"
+
+          <div>
+            <label className="display-font" style={{ display: 'block', fontSize: '1.1rem', marginBottom: '8px' }}>EMAIL</label>
+            <input type="email" name="email" className="brutal-input" placeholder="tu@email.com"
               value={form.email} onChange={handleChange} required />
           </div>
-          <div className="input-group">
-            <label><Phone size={14} style={{ display: 'inline', verticalAlign: 'middle', marginRight: 6 }} />Teléfono</label>
-            <input name="phone" className="input-field" placeholder="+56 9 1234 5678"
+
+          <div>
+            <label className="display-font" style={{ display: 'block', fontSize: '1.1rem', marginBottom: '8px' }}>TELÉFONO</label>
+            <input name="phone" className="brutal-input" placeholder="+56 9 1234 5678"
               value={form.phone} onChange={handleChange} />
           </div>
-          <div className="input-group">
-            <label><Lock size={14} style={{ display: 'inline', verticalAlign: 'middle', marginRight: 6 }} />Contraseña</label>
-            <input type="password" name="password" className="input-field" placeholder="••••••••"
+
+          <div>
+            <label className="display-font" style={{ display: 'block', fontSize: '1.1rem', marginBottom: '8px' }}>CONTRASEÑA</label>
+            <input type="password" name="password" className="brutal-input" placeholder="••••••••"
               value={form.password} onChange={handleChange} required />
           </div>
 
-          <button type="submit" className="btn btn-primary" disabled={loading}
-            style={{ width: '100%', marginTop: '8px' }}>
-            {loading ? 'Creando...' : <><UserPlus size={16} /> Crear Cuenta</>}
+          <button type="submit" className="brutal-btn primary" disabled={loading} style={{ marginTop: '20px', width: '100%' }}>
+            {loading ? 'CREANDO...' : <><UserPlus size={20} /> CREAR CUENTA</>}
           </button>
         </form>
 
-        <p style={{ textAlign: 'center', marginTop: '20px', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-          ¿Ya tienes cuenta?{' '}
-          <Link to="/login" style={{ color: 'var(--emerald-400)', fontWeight: 600 }}>Inicia sesión</Link>
-        </p>
+        <div style={{ textAlign: 'center', marginTop: '30px', fontWeight: 600 }}>
+          ¿Ya tienes cuenta? <Link to="/login" style={{ color: 'var(--accent-blue)', textDecoration: 'underline' }}>Inicia sesión</Link>
+        </div>
       </div>
     </div>
   );
