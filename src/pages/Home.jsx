@@ -77,40 +77,26 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right Content - Abstract Geometric Composition */}
+            {/* Right Content - Hero Image */}
             <div className="animate-in delay-2" style={{ position: 'relative', height: '100%', minHeight: '500px' }}>
               <div style={{ 
                 position: 'absolute', 
-                top: '10%', right: '10%', 
-                width: '80%', height: '80%', 
-                background: 'var(--accent-blue)',
-                border: 'var(--border-thick)',
-                transform: 'rotate(4deg)'
-              }} />
-              <div style={{ 
-                position: 'absolute', 
-                top: '15%', right: '15%', 
-                width: '80%', height: '80%', 
+                top: '5%', right: '5%', 
+                width: '90%', height: '90%', 
                 background: 'var(--accent-orange)',
                 border: 'var(--border-thick)',
-                transform: 'rotate(-2deg)'
+                transform: 'rotate(3deg)'
               }} />
               <div style={{ 
                 position: 'absolute', 
-                top: '20%', right: '5%', 
-                width: '90%', height: '70%', 
-                background: 'white',
+                top: '10%', right: '10%', 
+                width: '90%', height: '90%', 
                 border: 'var(--border-thick)',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-                padding: '40px',
-                textAlign: 'center'
+                transform: 'rotate(-2deg)',
+                overflow: 'hidden',
+                background: 'white'
               }}>
-                <Search size={80} strokeWidth={1.5} color="var(--text-primary)" style={{ marginBottom: '20px' }} />
-                <h3 className="display-font" style={{ fontSize: '2rem' }}>MOTOR AI<br/>ACTIVO</h3>
-                <p style={{ marginTop: '10px', fontWeight: 600 }}>Cruces de datos diarios</p>
+                <img src="/hero-pets.png" alt="Sanos y Salvos" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
             </div>
 
@@ -128,7 +114,7 @@ export default function Home() {
               { val: stats.total_activos, label: 'TOTAL REPORTES', color: 'var(--accent-blue)' }
             ].map((s, i) => (
               <div key={i} className="brutal-card" style={{ textAlign: 'center', borderTop: `8px solid ${s.color}` }}>
-                <div className="display-font" style={{ fontSize: '4rem', color: s.color, lineHeight: 1 }}>{s.val}</div>
+                <div style={{ fontFamily: '"DM Sans", sans-serif', fontWeight: 800, fontSize: '4rem', color: s.color, lineHeight: 1 }}>{s.val}</div>
                 <div style={{ fontWeight: 700, marginTop: '10px', fontSize: '1.1rem' }}>{s.label}</div>
               </div>
             ))}
@@ -136,36 +122,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Architecture Features */}
-      <section style={{ padding: '100px 0' }}>
-        <div className="container">
-          <h2 className="display-font" style={{ fontSize: '3rem', marginBottom: '60px', borderBottom: 'var(--border-thick)', paddingBottom: '20px' }}>
-            ARQUITECTURA DEL SISTEMA
-          </h2>
 
-          <div className="grid-3">
-            {[
-              { icon: MapPin, title: 'Geospatial DB', desc: 'PostGIS queries de alta velocidad' },
-              { icon: Search, title: 'Smart Match', desc: 'Scoring asíncrono con Python' },
-              { icon: Zap, title: 'Event-Driven', desc: 'Mensajería vía RabbitMQ' },
-              { icon: Shield, title: 'Zero-Trust', desc: 'JWT en API Gateway' },
-              { icon: Globe, title: 'Microservicios', desc: 'Independencia total de datos' },
-              { icon: PawPrint, title: 'React 18', desc: 'UI asíncrona de alto rendimiento' },
-            ].map((f, i) => (
-              <div key={i} style={{ 
-                padding: '30px', 
-                border: 'var(--border-thick)', 
-                background: 'white',
-                boxShadow: '4px 4px 0px var(--text-primary)'
-              }}>
-                <f.icon size={32} style={{ marginBottom: '20px', color: 'var(--accent-blue)' }} />
-                <h3 className="display-font" style={{ fontSize: '1.5rem', marginBottom: '10px' }}>{f.title}</h3>
-                <p style={{ fontWeight: 500 }}>{f.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Big CTA */}
       <section style={{ padding: '40px 0' }}>
