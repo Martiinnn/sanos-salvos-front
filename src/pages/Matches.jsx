@@ -20,7 +20,7 @@ function MatchCard({ match, onAction }) {
   const labels = { breed: 'Raza', color: 'Color', size: 'Tamaño', proximity: 'Distancia', date: 'Fecha' };
 
   return (
-    <div className="glass-card animate-fade-in" style={{ padding: '24px' }}>
+    <div className="brutal-card animate-fade-in" style={{ padding: '24px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
         <div>
           <span className="badge badge-match" style={{ marginBottom: '8px', display: 'inline-block' }}>Coincidencia</span>
@@ -62,10 +62,10 @@ function MatchCard({ match, onAction }) {
 
       {match.status === 'pendiente' && (
         <div style={{ display: 'flex', gap: '8px', marginTop: '16px' }}>
-          <button onClick={() => onAction(match._id, 'confirmado')} className="btn btn-primary btn-sm" style={{ flex: 1 }}>
+          <button onClick={() => onAction(match._id, 'confirmado')} className="brutal-brutal-btn primary btn-sm" style={{ flex: 1 }}>
             <CheckCircle size={14} /> Confirmar
           </button>
-          <button onClick={() => onAction(match._id, 'descartado')} className="btn btn-secondary btn-sm" style={{ flex: 1 }}>
+          <button onClick={() => onAction(match._id, 'descartado')} className="brutal-brutal-btn secondary btn-sm" style={{ flex: 1 }}>
             <XCircle size={14} /> Descartar
           </button>
         </div>
@@ -115,7 +115,7 @@ export default function Matches() {
             <Loader size={32} style={{ color: 'var(--emerald-400)', animation: 'spin 1s linear infinite' }} />
           </div>
         ) : matches.length === 0 ? (
-          <div className="glass-card" style={{ padding: '60px', textAlign: 'center' }}>
+          <div className="brutal-card" style={{ padding: '60px', textAlign: 'center' }}>
             <Search size={48} color="var(--text-muted)" style={{ marginBottom: '16px' }} />
             <h3 style={{ color: 'var(--text-secondary)' }}>Sin coincidencias aún</h3>
             <p style={{ color: 'var(--text-muted)', marginTop: '8px', fontSize: '0.9rem' }}>

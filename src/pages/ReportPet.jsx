@@ -67,7 +67,7 @@ export default function ReportPet() {
   if (success) {
     return (
       <div className="page" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '80vh' }}>
-        <div className="glass-card" style={{ padding: '50px', textAlign: 'center', maxWidth: '500px' }}>
+        <div className="brutal-card" style={{ padding: '50px', textAlign: 'center', maxWidth: '500px' }}>
           <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'rgba(16,185,129,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
             <CheckCircle size={40} color="var(--emerald-400)" />
           </div>
@@ -76,8 +76,8 @@ export default function ReportPet() {
             Tu reporte ha sido registrado exitosamente. Nuestro motor de coincidencias está buscando posibles matches automáticamente.
           </p>
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
-            <button onClick={() => navigate('/map')} className="btn btn-primary">Ver en Mapa</button>
-            <button onClick={() => navigate('/')} className="btn btn-secondary">Inicio</button>
+            <button onClick={() => navigate('/map')} className="brutal-brutal-btn primary">Ver en Mapa</button>
+            <button onClick={() => navigate('/')} className="brutal-brutal-btn secondary">Inicio</button>
           </div>
         </div>
       </div>
@@ -98,13 +98,13 @@ export default function ReportPet() {
           {[1, 2, 3].map((s) => (
             <div key={s} style={{
               flex: 1, height: 4, borderRadius: 2,
-              background: s <= step ? 'var(--emerald-500)' : 'var(--bg-input)',
+              background: s <= step ? 'var(--emerald-500)' : 'var(--bg-primary)',
               transition: 'background 0.3s',
             }} />
           ))}
         </div>
 
-        <div className="glass-card" style={{ padding: '30px' }}>
+        <div className="brutal-card" style={{ padding: '30px' }}>
           {/* Step 1: Pet Info */}
           {step === 1 && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -113,7 +113,7 @@ export default function ReportPet() {
               <div style={{ display: 'flex', gap: '8px' }}>
                 {['perdido', 'encontrado'].map(type => (
                   <button key={type} onClick={() => updateField('report_type', type)}
-                    className={`btn ${form.report_type === type ? 'btn-primary' : 'btn-secondary'}`}
+                    className={`brutal-btn ${form.report_type === type ? 'btn-primary' : 'btn-secondary'}`}
                     style={{ flex: 1, textTransform: 'capitalize' }}>
                     {type === 'perdido' ? '🔴' : '🟢'} {type}
                   </button>
@@ -234,17 +234,17 @@ export default function ReportPet() {
           {/* Navigation */}
           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '24px' }}>
             {step > 1 ? (
-              <button onClick={() => setStep(step - 1)} className="btn btn-secondary">
+              <button onClick={() => setStep(step - 1)} className="brutal-brutal-btn secondary">
                 <ArrowLeft size={16} /> Anterior
               </button>
             ) : <div />}
 
             {step < 3 ? (
-              <button onClick={() => setStep(step + 1)} className="btn btn-primary">
+              <button onClick={() => setStep(step + 1)} className="brutal-brutal-btn primary">
                 Siguiente <ArrowRight size={16} />
               </button>
             ) : (
-              <button onClick={handleSubmit} className="btn btn-primary" disabled={loading}>
+              <button onClick={handleSubmit} className="brutal-brutal-btn primary" disabled={loading}>
                 {loading ? 'Enviando...' : <><Send size={16} /> Enviar Reporte</>}
               </button>
             )}

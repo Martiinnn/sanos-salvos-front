@@ -1,9 +1,5 @@
-/**
- * Sanos y Salvos — Home Page
- */
-
 import { Link } from 'react-router-dom';
-import { PawPrint, MapPin, Search, Bell, ArrowRight, Shield, Zap, Globe } from 'lucide-react';
+import { PawPrint, MapPin, Search, ArrowRight, Shield, Zap, Globe } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { petsAPI } from '../api/client';
 
@@ -14,122 +10,186 @@ export default function Home() {
     petsAPI.getStats().then(res => setStats(res.data)).catch(() => {});
   }, []);
 
-  const features = [
-    { icon: MapPin, title: 'Geolocalización', desc: 'Mapa interactivo con reportes y zonas de alta incidencia en tiempo real', color: 'var(--ocean-500)' },
-    { icon: Search, title: 'Motor de Match', desc: 'Algoritmo inteligente que cruza datos automáticamente', color: 'var(--purple-500)' },
-    { icon: Bell, title: 'Alertas en Vivo', desc: 'Notificaciones instantáneas via WebSocket al detectar coincidencia', color: 'var(--amber-500)' },
-    { icon: Shield, title: 'Seguridad JWT', desc: 'Autenticación robusta con tokens JWT y encriptación', color: 'var(--emerald-500)' },
-    { icon: Zap, title: 'Eventos Asíncronos', desc: 'Arquitectura orientada a eventos con RabbitMQ', color: 'var(--red-400)' },
-    { icon: Globe, title: 'Microservicios', desc: '4 microservicios independientes con bases de datos aisladas', color: 'var(--ocean-400)' },
-  ];
-
   return (
-    <div className="page">
-      {/* Hero */}
-      <section style={{
-        minHeight: 'calc(100vh - 80px)', display: 'flex', alignItems: 'center',
-        justifyContent: 'center', position: 'relative', overflow: 'hidden',
+    <div style={{ paddingBottom: '100px' }}>
+      {/* Marquee Banner */}
+      <div className="marquee-container">
+        <div className="marquee-content">
+          <span>ALERTA MASCOTAS PERDIDAS</span>
+          <span>•</span>
+          <span>SISTEMA DE MATCH EN TIEMPO REAL</span>
+          <span>•</span>
+          <span>REPORTE INMEDIATO</span>
+          <span>•</span>
+          <span>ALERTA MASCOTAS PERDIDAS</span>
+          <span>•</span>
+          <span>SISTEMA DE MATCH EN TIEMPO REAL</span>
+          <span>•</span>
+          <span>REPORTE INMEDIATO</span>
+        </div>
+      </div>
+
+      {/* Hero Section */}
+      <section style={{ 
+        minHeight: '85vh', 
+        display: 'flex', 
+        alignItems: 'center',
+        position: 'relative',
+        padding: '80px 0',
+        borderBottom: 'var(--border-thick)'
       }}>
-        <div style={{ position: 'absolute', top: '10%', left: '15%', width: '400px', height: '400px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(16,185,129,0.08) 0%, transparent 70%)', filter: 'blur(40px)' }} />
-        <div style={{ position: 'absolute', bottom: '20%', right: '10%', width: '350px', height: '350px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(14,165,233,0.08) 0%, transparent 70%)', filter: 'blur(40px)' }} />
+        <div className="container">
+          <div className="grid-2" style={{ alignItems: 'center' }}>
+            
+            {/* Left Content */}
+            <div className="animate-in">
+              <div className="badge" style={{ marginBottom: '24px', background: 'var(--accent-green)' }}>
+                PLATAFORMA ACTIVA
+              </div>
+              
+              <h1 className="display-font" style={{ 
+                fontSize: 'clamp(3rem, 7vw, 6rem)', 
+                lineHeight: 0.9,
+                marginBottom: '32px',
+                textTransform: 'uppercase'
+              }}>
+                Encuentra <br/>a tu <span style={{ color: 'var(--accent-orange)' }}>Mascota.</span>
+              </h1>
+              
+              <p style={{ 
+                fontSize: '1.4rem', 
+                maxWidth: '500px', 
+                marginBottom: '40px',
+                fontWeight: 500,
+                borderLeft: '4px solid var(--accent-blue)',
+                paddingLeft: '20px'
+              }}>
+                Uniendo ciudadanos, tecnología y datos. Motor de coincidencias avanzado en tiempo real.
+              </p>
 
-        <div className="container" style={{ textAlign: 'center', position: 'relative', zIndex: 2 }}>
-          <div className="animate-fade-in">
-            <div style={{
-              display: 'inline-flex', alignItems: 'center', gap: '8px',
-              padding: '6px 16px', borderRadius: 'var(--radius-full)',
-              background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.2)',
-              marginBottom: '24px', fontSize: '0.85rem', color: 'var(--emerald-400)',
-            }}>
-              <PawPrint size={14} /> Plataforma de Rescate Animal
+              <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
+                <Link to="/report" className="brutal-btn primary">
+                  <PawPrint size={20} strokeWidth={3} /> REPORTE URGENTE
+                </Link>
+                <Link to="/map" className="brutal-btn">
+                  <MapPin size={20} strokeWidth={3} /> EXPLORAR ZONAS
+                </Link>
+              </div>
             </div>
 
-            <h1 style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', marginBottom: '20px', lineHeight: 1.1 }}>
-              Encuentra a tu mascota{' '}
-              <span style={{ background: 'var(--gradient-primary)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                Sanos y Salvos
-              </span>
-            </h1>
-
-            <p style={{ fontSize: '1.15rem', color: 'var(--text-secondary)', maxWidth: '600px', margin: '0 auto 36px' }}>
-              Plataforma inteligente que conecta ciudadanos, veterinarias y refugios para localizar y recuperar mascotas perdidas mediante geolocalización y algoritmos de coincidencia.
-            </p>
-
-            <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
-              <Link to="/report" className="btn btn-primary btn-lg">
-                <PawPrint size={18} /> Reportar Mascota <ArrowRight size={16} />
-              </Link>
-              <Link to="/map" className="btn btn-secondary btn-lg">
-                <MapPin size={18} /> Ver Mapa
-              </Link>
+            {/* Right Content - Abstract Geometric Composition */}
+            <div className="animate-in delay-2" style={{ position: 'relative', height: '100%', minHeight: '500px' }}>
+              <div style={{ 
+                position: 'absolute', 
+                top: '10%', right: '10%', 
+                width: '80%', height: '80%', 
+                background: 'var(--accent-blue)',
+                border: 'var(--border-thick)',
+                transform: 'rotate(4deg)'
+              }} />
+              <div style={{ 
+                position: 'absolute', 
+                top: '15%', right: '15%', 
+                width: '80%', height: '80%', 
+                background: 'var(--accent-orange)',
+                border: 'var(--border-thick)',
+                transform: 'rotate(-2deg)'
+              }} />
+              <div style={{ 
+                position: 'absolute', 
+                top: '20%', right: '5%', 
+                width: '90%', height: '70%', 
+                background: 'white',
+                border: 'var(--border-thick)',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: '40px',
+                textAlign: 'center'
+              }}>
+                <Search size={80} strokeWidth={1.5} color="var(--text-primary)" style={{ marginBottom: '20px' }} />
+                <h3 className="display-font" style={{ fontSize: '2rem' }}>MOTOR AI<br/>ACTIVO</h3>
+                <p style={{ marginTop: '10px', fontWeight: 600 }}>Cruces de datos diarios</p>
+              </div>
             </div>
+
           </div>
+        </div>
+      </section>
 
-          {/* Stats */}
-          <div className="animate-fade-in animate-delay-2"
-            style={{ display: 'flex', justifyContent: 'center', gap: '30px', marginTop: '60px', flexWrap: 'wrap' }}>
+      {/* Stats Section */}
+      <section style={{ padding: '80px 0', background: 'var(--bg-secondary)', borderBottom: 'var(--border-thick)' }}>
+        <div className="container animate-in delay-3">
+          <div className="grid-3">
             {[
-              { value: stats.total_perdidos, label: 'Perdidos activos', color: 'var(--red-400)' },
-              { value: stats.total_encontrados, label: 'Encontrados', color: 'var(--emerald-400)' },
-              { value: stats.total_activos, label: 'Reportes totales', color: 'var(--ocean-400)' },
-            ].map((stat, i) => (
-              <div key={i} className="glass-card" style={{ padding: '24px 36px', textAlign: 'center', minWidth: '160px' }}>
-                <div style={{ fontSize: '2.2rem', fontWeight: 800, fontFamily: 'Outfit', color: stat.color }}>{stat.value}</div>
-                <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '4px' }}>{stat.label}</div>
+              { val: stats.total_perdidos, label: 'BÚSQUEDAS ACTIVAS', color: 'var(--accent-orange)' },
+              { val: stats.total_encontrados, label: 'MASCOTAS SALVADAS', color: 'var(--accent-green)' },
+              { val: stats.total_activos, label: 'TOTAL REPORTES', color: 'var(--accent-blue)' }
+            ].map((s, i) => (
+              <div key={i} className="brutal-card" style={{ textAlign: 'center', borderTop: `8px solid ${s.color}` }}>
+                <div className="display-font" style={{ fontSize: '4rem', color: s.color, lineHeight: 1 }}>{s.val}</div>
+                <div style={{ fontWeight: 700, marginTop: '10px', fontSize: '1.1rem' }}>{s.label}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Features */}
-      <section style={{ padding: '80px 0' }}>
+      {/* Architecture Features */}
+      <section style={{ padding: '100px 0' }}>
         <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: '50px' }}>
-            <h2 style={{ fontSize: '2rem', marginBottom: '12px' }}>
-              Arquitectura de <span style={{ color: 'var(--emerald-400)' }}>Microservicios</span>
-            </h2>
-            <p style={{ color: 'var(--text-secondary)', maxWidth: '500px', margin: '0 auto' }}>
-              Sistema distribuido y orientado a eventos para máxima escalabilidad y resiliencia
-            </p>
-          </div>
+          <h2 className="display-font" style={{ fontSize: '3rem', marginBottom: '60px', borderBottom: 'var(--border-thick)', paddingBottom: '20px' }}>
+            ARQUITECTURA DEL SISTEMA
+          </h2>
 
           <div className="grid-3">
-            {features.map((f, i) => (
-              <div key={i} className="glass-card animate-fade-in" style={{ padding: '28px', cursor: 'default', animationDelay: `${i * 0.1}s`, opacity: 0 }}>
-                <div style={{
-                  width: 48, height: 48, borderRadius: 'var(--radius-md)',
-                  background: `${f.color}15`, display: 'flex',
-                  alignItems: 'center', justifyContent: 'center', marginBottom: '16px',
-                }}>
-                  <f.icon size={22} color={f.color} />
-                </div>
-                <h3 style={{ fontSize: '1.05rem', marginBottom: '8px' }}>{f.title}</h3>
-                <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>{f.desc}</p>
+            {[
+              { icon: MapPin, title: 'Geospatial DB', desc: 'PostGIS queries de alta velocidad' },
+              { icon: Search, title: 'Smart Match', desc: 'Scoring asíncrono con Python' },
+              { icon: Zap, title: 'Event-Driven', desc: 'Mensajería vía RabbitMQ' },
+              { icon: Shield, title: 'Zero-Trust', desc: 'JWT en API Gateway' },
+              { icon: Globe, title: 'Microservicios', desc: 'Independencia total de datos' },
+              { icon: PawPrint, title: 'React 18', desc: 'UI asíncrona de alto rendimiento' },
+            ].map((f, i) => (
+              <div key={i} style={{ 
+                padding: '30px', 
+                border: 'var(--border-thick)', 
+                background: 'white',
+                boxShadow: '4px 4px 0px var(--text-primary)'
+              }}>
+                <f.icon size={32} style={{ marginBottom: '20px', color: 'var(--accent-blue)' }} />
+                <h3 className="display-font" style={{ fontSize: '1.5rem', marginBottom: '10px' }}>{f.title}</h3>
+                <p style={{ fontWeight: 500 }}>{f.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section style={{ padding: '60px 0' }}>
+      {/* Big CTA */}
+      <section style={{ padding: '40px 0' }}>
         <div className="container">
-          <div className="glass-card" style={{
-            padding: '50px', textAlign: 'center',
-            background: 'linear-gradient(135deg, rgba(16,185,129,0.05), rgba(14,165,233,0.05))',
-            border: '1px solid rgba(16,185,129,0.15)',
+          <div style={{ 
+            background: 'var(--text-primary)', 
+            color: 'var(--bg-primary)',
+            padding: '80px 40px',
+            textAlign: 'center',
+            border: 'var(--border-thick)'
           }}>
-            <h2 style={{ fontSize: '1.8rem', marginBottom: '12px' }}>¿Perdiste a tu mascota?</h2>
-            <p style={{ color: 'var(--text-secondary)', marginBottom: '24px' }}>
-              Crea un reporte ahora y nuestro motor de coincidencias buscará automáticamente.
+            <h2 className="display-font" style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', marginBottom: '24px' }}>
+              ACTÚA AHORA.
+            </h2>
+            <p style={{ fontSize: '1.5rem', maxWidth: '600px', margin: '0 auto 40px' }}>
+              Cada hora cuenta. Nuestro sistema cruza datos al instante.
             </p>
-            <Link to="/report" className="btn btn-primary btn-lg">
-              Crear Reporte Ahora <ArrowRight size={16} />
+            <Link to="/report" className="brutal-btn primary" style={{ fontSize: '1.5rem', padding: '24px 48px' }}>
+              INGRESAR REPORTE <ArrowRight size={28} />
             </Link>
           </div>
         </div>
       </section>
+
     </div>
   );
 }

@@ -1,69 +1,59 @@
-/**
- * Sanos y Salvos — Footer
- */
-
-import { PawPrint, Heart, Github } from 'lucide-react';
+import { Heart, Github, Twitter } from 'lucide-react';
 
 export default function Footer() {
   return (
-    <footer style={{
-      borderTop: '1px solid var(--border-glass)',
-      background: 'rgba(10, 15, 26, 0.9)',
-      padding: '40px 0 20px',
-      marginTop: '60px',
+    <footer style={{ 
+      background: 'var(--text-primary)', 
+      color: 'var(--bg-primary)',
+      padding: '80px 0 40px',
+      borderTop: 'var(--border-thick)'
     }}>
       <div className="container">
-        <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '30px' }}>
+        <div className="grid-3" style={{ marginBottom: '60px' }}>
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
-              <div style={{
-                width: 36, height: 36, borderRadius: 'var(--radius-md)',
-                background: 'var(--gradient-primary)', display: 'flex',
-                alignItems: 'center', justifyContent: 'center',
-              }}>
-                <PawPrint size={18} color="white" />
-              </div>
-              <span style={{ fontFamily: 'Outfit', fontWeight: 700, fontSize: '1.1rem' }}>
-                Sanos & Salvos
-              </span>
-            </div>
-            <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', maxWidth: '300px' }}>
-              Plataforma de localización y recuperación de mascotas perdidas.
-              Conectando comunidades para reunir familias.
+            <h3 className="display-font" style={{ fontSize: '2rem', marginBottom: '16px' }}>
+              SANOS<span style={{ color: 'var(--accent-orange)' }}>&</span>SALVOS
+            </h3>
+            <p style={{ maxWidth: '300px', fontSize: '1.1rem' }}>
+              Plataforma de rescate animal propulsada por datos, geolocalización y algoritmos de coincidencia inteligente.
             </p>
           </div>
-
+          
           <div>
-            <h4 style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '1px' }}>
-              Servicios
-            </h4>
-            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <li><a href="/report" style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Reportar mascota</a></li>
-              <li><a href="/map" style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Mapa interactivo</a></li>
-              <li><a href="/matches" style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Coincidencias</a></li>
+            <h4 className="display-font" style={{ fontSize: '1.2rem', marginBottom: '20px', color: 'var(--text-muted)' }}>SISTEMA</h4>
+            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '12px', fontWeight: 600 }}>
+              <li><a href="#" style={{ textDecoration: 'underline' }}>Reportar Mascota</a></li>
+              <li><a href="#" style={{ textDecoration: 'underline' }}>Ver Mapa</a></li>
+              <li><a href="#" style={{ textDecoration: 'underline' }}>Motor de Matches</a></li>
             </ul>
           </div>
-
+          
           <div>
-            <h4 style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '1px' }}>
-              Arquitectura
-            </h4>
-            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <li style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Microservicios FastAPI</li>
-              <li style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>RabbitMQ Events</li>
-              <li style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>PostgreSQL + PostGIS</li>
-              <li style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>MongoDB</li>
-            </ul>
+            <h4 className="display-font" style={{ fontSize: '1.2rem', marginBottom: '20px', color: 'var(--text-muted)' }}>CONECTAR</h4>
+            <div style={{ display: 'flex', gap: '16px' }}>
+              <a href="#" style={{ padding: '12px', border: '2px solid var(--bg-primary)', borderRadius: 'var(--radius-sharp)' }}>
+                <Github size={24} />
+              </a>
+              <a href="#" style={{ padding: '12px', border: '2px solid var(--bg-primary)', borderRadius: 'var(--radius-sharp)' }}>
+                <Twitter size={24} />
+              </a>
+            </div>
           </div>
         </div>
-
-        <div style={{
-          borderTop: '1px solid var(--border-glass)',
-          marginTop: '30px', paddingTop: '20px',
-          display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '6px',
-          color: 'var(--text-muted)', fontSize: '0.8rem',
+        
+        <div style={{ 
+          borderTop: '1px solid #333', 
+          paddingTop: '30px',
+          display: 'flex', 
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: '20px'
         }}>
-          Hecho con <Heart size={14} color="var(--red-400)" fill="var(--red-400)" /> por Martin & Matias — 2026
+          <p style={{ fontWeight: 500 }}>&copy; 2026 Sanos y Salvos. All rights reserved.</p>
+          <p style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 700 }}>
+            Hecho con <Heart size={18} color="var(--accent-orange)" fill="var(--accent-orange)" /> en Chile
+          </p>
         </div>
       </div>
     </footer>

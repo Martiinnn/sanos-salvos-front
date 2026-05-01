@@ -1,15 +1,11 @@
-/**
- * Sanos y Salvos — Login Page
- */
-
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { PawPrint, LogIn } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { PawPrint, Mail, Lock, LogIn } from 'lucide-react';
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('demo@sanosysalvos.cl');
+  const [password, setPassword] = useState('demo123');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
@@ -19,71 +15,82 @@ export default function Login() {
     e.preventDefault();
     setError('');
     setLoading(true);
+    
     try {
-      await login(email, password);
-      navigate('/');
+      const success = await login(email, password);
+      if (success) {
+        navigate('/');
+      } else {
+        setError('Credenciales inválidas');
+      }
     } catch (err) {
-      setError(err.response?.data?.detail || 'Error al iniciar sesión');
+      setError('Error al intentar iniciar sesión');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="page" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
-      <div style={{ position: 'absolute', top: '20%', left: '20%', width: '300px', height: '300px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(16,185,129,0.06) 0%, transparent 70%)', filter: 'blur(40px)' }} />
-
-      <div className="glass-card" style={{ padding: '40px', width: '100%', maxWidth: '420px' }}>
-        <div style={{ textAlign: 'center', marginBottom: '28px' }}>
-          <div style={{
-            width: 56, height: 56, borderRadius: 'var(--radius-lg)',
-            background: 'var(--gradient-primary)', display: 'flex',
-            alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px',
+    <div style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }}>
+      
+      <div className="brutal-card animate-in" style={{ width: '100%', maxWidth: '500px', padding: '50px 40px' }}>
+        
+        <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+          <div style={{ 
+            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+            width: '60px', height: '60px', background: 'var(--accent-blue)', color: 'white',
+            border: 'var(--border-thick)', borderRadius: 'var(--radius-sharp)', marginBottom: '20px'
           }}>
-            <PawPrint size={26} color="white" />
+            <PawPrint size={32} />
           </div>
-          <h1 style={{ fontSize: '1.5rem', marginBottom: '6px' }}>Bienvenido</h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>Inicia sesión en tu cuenta</p>
+          <h1 className="display-font" style={{ fontSize: '2.5rem' }}>ACCESO</h1>
+          <p style={{ fontWeight: 600, color: 'var(--text-muted)' }}>Ingresa al panel del sistema</p>
         </div>
 
         {error && (
-          <div style={{
-            padding: '10px 16px', borderRadius: 'var(--radius-md)',
-            background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)',
-            color: 'var(--red-400)', fontSize: '0.85rem', marginBottom: '20px',
-          }}>{error}</div>
+          <div style={{ 
+            background: 'var(--accent-orange)', color: 'white', padding: '16px',
+            border: 'var(--border-thick)', fontWeight: 700, marginBottom: '24px',
+            textAlign: 'center'
+          }}>
+            {error}
+          </div>
         )}
 
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          <div className="input-group">
-            <label><Mail size={14} style={{ display: 'inline', verticalAlign: 'middle', marginRight: 6 }} />Email</label>
-            <input type="email" className="input-field" placeholder="tu@email.com"
-              value={email} onChange={(e) => setEmail(e.target.value)} required />
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          
+          <div>
+            <label className="display-font" style={{ display: 'block', fontSize: '1.1rem', marginBottom: '8px' }}>EMAIL</label>
+            <input 
+              type="email" 
+              className="brutal-input"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
           </div>
 
-          <div className="input-group">
-            <label><Lock size={14} style={{ display: 'inline', verticalAlign: 'middle', marginRight: 6 }} />Contraseña</label>
-            <input type="password" className="input-field" placeholder="••••••••"
-              value={password} onChange={(e) => setPassword(e.target.value)} required />
+          <div>
+            <label className="display-font" style={{ display: 'block', fontSize: '1.1rem', marginBottom: '8px' }}>CONTRASEÑA</label>
+            <input 
+              type="password" 
+              className="brutal-input"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
           </div>
 
-          <button type="submit" className="btn btn-primary" disabled={loading}
-            style={{ width: '100%', marginTop: '8px' }}>
-            {loading ? 'Cargando...' : <><LogIn size={16} /> Iniciar Sesión</>}
+          <button type="submit" className="brutal-btn primary" disabled={loading} style={{ marginTop: '20px', width: '100%' }}>
+            {loading ? 'AUTENTICANDO...' : <><LogIn size={20} /> INICIAR SESIÓN</>}
           </button>
         </form>
 
-        <p style={{ textAlign: 'center', marginTop: '20px', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-          ¿No tienes cuenta?{' '}
-          <Link to="/register" style={{ color: 'var(--emerald-400)', fontWeight: 600 }}>Regístrate</Link>
-        </p>
-
-        <div style={{ textAlign: 'center', marginTop: '16px', padding: '12px', borderRadius: 'var(--radius-md)', background: 'rgba(14,165,233,0.06)', border: '1px solid rgba(14,165,233,0.1)' }}>
-          <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-            Demo: <strong style={{ color: 'var(--ocean-400)' }}>demo@sanosysalvos.cl</strong> / <strong style={{ color: 'var(--ocean-400)' }}>demo123</strong>
-          </p>
+        <div style={{ textAlign: 'center', marginTop: '30px', fontWeight: 600 }}>
+          ¿No tienes cuenta? <Link to="/register" style={{ color: 'var(--accent-blue)', textDecoration: 'underline' }}>Regístrate</Link>
         </div>
       </div>
+      
     </div>
   );
 }
