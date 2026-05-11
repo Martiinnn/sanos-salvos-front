@@ -1,8 +1,3 @@
-/**
- * Sanos y Salvos — Report Pet Page
- * Multi-step form to report a lost or found pet.
- */
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
@@ -27,10 +22,25 @@ export default function ReportPet() {
 
   const [form, setForm] = useState({
     report_type: 'perdido',
-    pet: { name: '', species: 'perro', breed: '', color: '', size: 'mediano', age_estimate: '', description: '', photo_url: '', distinctive_features: '' },
-    latitude: -33.4489, longitude: -70.6693, address: '',
+    pet: {
+      name: '',
+      species: 'perro',
+      breed: '',
+      color: '',
+      size: 'mediano',
+      age_estimate: '',
+      description: '',
+      photo_url: '',
+      distinctive_features: '',
+    },
+    latitude: -33.4489,
+    longitude: -70.6693,
+    address: '',
     date_event: new Date().toISOString().split('T')[0],
-    contact_name: '', contact_phone: '', contact_email: '', notes: '',
+    contact_name: '',
+    contact_phone: '',
+    contact_email: '',
+    notes: '',
   });
 
   const updatePet = (field, value) => setForm({ ...form, pet: { ...form.pet, [field]: value } });
@@ -46,7 +56,6 @@ export default function ReportPet() {
       };
       const res = await petsAPI.createReport(data);
 
-      // Also register location in geo service
       try {
         await geoAPI.createLocation({
           report_id: res.data.id,
@@ -66,18 +75,18 @@ export default function ReportPet() {
 
   if (success) {
     return (
-      <div className="page" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '80vh' }}>
-        <div className="brutal-card" style={{ padding: '50px', textAlign: 'center', maxWidth: '500px' }}>
-          <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'rgba(16,185,129,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
-            <CheckCircle size={40} color="var(--emerald-400)" />
+      <div className="page report-page success-wrap">
+        <div className="brutal-card report-card success-card">
+          <div className="success-icon-wrap">
+            <CheckCircle size={40} color="var(--accent-green)" />
           </div>
-          <h2>¡Reporte Creado!</h2>
-          <p style={{ color: 'var(--text-secondary)', margin: '12px 0 24px' }}>
-            Tu reporte ha sido registrado exitosamente. Nuestro motor de coincidencias está buscando posibles matches automáticamente.
+          <h2>Reporte creado</h2>
+          <p className="success-text">
+            Tu reporte ha sido registrado correctamente. Ahora se puede buscar coincidencias desde el sistema.
           </p>
-          <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
-            <button onClick={() => navigate('/map')} className="brutal-brutal-btn primary">Ver en Mapa</button>
-            <button onClick={() => navigate('/')} className="brutal-brutal-btn secondary">Inicio</button>
+          <div className="report-nav center">
+            <button onClick={() => navigate('/map')} className="brutal-btn primary nav-btn">Ver en mapa</button>
+            <button onClick={() => navigate('/')} className="brutal-btn secondary nav-btn">Inicio</button>
           </div>
         </div>
       </div>
@@ -85,49 +94,45 @@ export default function ReportPet() {
   }
 
   return (
-    <div className="page">
-      <div className="container" style={{ maxWidth: '700px', paddingTop: '30px', paddingBottom: '60px' }}>
-        <h1 style={{ fontSize: '1.8rem', marginBottom: '8px' }}>
-          <PawPrint size={28} style={{ display: 'inline', verticalAlign: 'middle', marginRight: 10, color: 'var(--emerald-400)' }} />
+    <div className="page report-page">
+      <div className="container report-container">
+        <h1 className="report-title">
+          <PawPrint size={28} style={{ display: 'inline', verticalAlign: 'middle', marginRight: 10, color: 'var(--accent-green)' }} />
           Reportar Mascota
         </h1>
-        <p style={{ color: 'var(--text-muted)', marginBottom: '30px' }}>Completa la información para crear un reporte</p>
+        <p className="report-subtitle">Completa la informacion para crear un reporte</p>
 
-        {/* Step Indicator */}
-        <div style={{ display: 'flex', gap: '8px', marginBottom: '30px' }}>
+        <div className="report-steps">
           {[1, 2, 3].map((s) => (
-            <div key={s} style={{
-              flex: 1, height: 4, borderRadius: 2,
-              background: s <= step ? 'var(--emerald-500)' : 'var(--bg-primary)',
-              transition: 'background 0.3s',
-            }} />
+            <div key={s} className={`step-bar ${s <= step ? 'active' : ''}`} />
           ))}
         </div>
 
-        <div className="brutal-card" style={{ padding: '30px' }}>
-          {/* Step 1: Pet Info */}
+        <div className="brutal-card report-card">
           {step === 1 && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <h3 style={{ marginBottom: '4px' }}>Información del Animal</h3>
+            <div className="report-step-content">
+              <h3 className="report-step-title">Informacion del Animal</h3>
 
-              <div style={{ display: 'flex', gap: '8px' }}>
-                {['perdido', 'encontrado'].map(type => (
-                  <button key={type} onClick={() => updateField('report_type', type)}
-                    className={`brutal-btn ${form.report_type === type ? 'btn-primary' : 'btn-secondary'}`}
-                    style={{ flex: 1, textTransform: 'capitalize' }}>
-                    {type === 'perdido' ? '🔴' : '🟢'} {type}
+              <div className="report-type-toggle">
+                {['perdido', 'encontrado'].map((type) => (
+                  <button
+                    key={type}
+                    onClick={() => updateField('report_type', type)}
+                    className={`brutal-btn report-type-btn ${form.report_type === type ? 'primary' : 'secondary'}`}
+                  >
+                    {type === 'perdido' ? 'Rojo' : 'Verde'} {type}
                   </button>
                 ))}
               </div>
 
-              <div className="grid-2">
+              <div className="grid-2 form-grid-tight">
                 <div className="input-group">
                   <label>Nombre</label>
-                  <input className="input-field" placeholder="Nombre de la mascota" value={form.pet.name} onChange={(e) => updatePet('name', e.target.value)} />
+                  <input className="input-field report-input" placeholder="Nombre de la mascota" value={form.pet.name} onChange={(e) => updatePet('name', e.target.value)} />
                 </div>
                 <div className="input-group">
                   <label>Especie *</label>
-                  <select className="input-field" value={form.pet.species} onChange={(e) => updatePet('species', e.target.value)}>
+                  <select className="input-field report-input" value={form.pet.species} onChange={(e) => updatePet('species', e.target.value)}>
                     <option value="perro">Perro</option>
                     <option value="gato">Gato</option>
                     <option value="otro">Otro</option>
@@ -135,51 +140,50 @@ export default function ReportPet() {
                 </div>
               </div>
 
-              <div className="grid-2">
+              <div className="grid-2 form-grid-tight">
                 <div className="input-group">
                   <label>Raza</label>
-                  <input className="input-field" placeholder="Ej: Labrador, Mestizo" value={form.pet.breed} onChange={(e) => updatePet('breed', e.target.value)} />
+                  <input className="input-field report-input" placeholder="Ej: Labrador, Mestizo" value={form.pet.breed} onChange={(e) => updatePet('breed', e.target.value)} />
                 </div>
                 <div className="input-group">
                   <label>Color *</label>
-                  <input className="input-field" placeholder="Ej: Negro, Café con blanco" value={form.pet.color} onChange={(e) => updatePet('color', e.target.value)} required />
+                  <input className="input-field report-input" placeholder="Ej: Negro, Cafe con blanco" value={form.pet.color} onChange={(e) => updatePet('color', e.target.value)} required />
                 </div>
               </div>
 
-              <div className="grid-2">
+              <div className="grid-2 form-grid-tight">
                 <div className="input-group">
-                  <label>Tamaño *</label>
-                  <select className="input-field" value={form.pet.size} onChange={(e) => updatePet('size', e.target.value)}>
-                    <option value="pequeño">Pequeño</option>
+                  <label>Tamano *</label>
+                  <select className="input-field report-input" value={form.pet.size} onChange={(e) => updatePet('size', e.target.value)}>
+                    <option value="peque�o">Peque�o</option>
                     <option value="mediano">Mediano</option>
                     <option value="grande">Grande</option>
                   </select>
                 </div>
                 <div className="input-group">
                   <label>Edad aproximada</label>
-                  <input className="input-field" placeholder="Ej: 3 años, Cachorro" value={form.pet.age_estimate} onChange={(e) => updatePet('age_estimate', e.target.value)} />
+                  <input className="input-field report-input" placeholder="Ej: 3 anos, cachorro" value={form.pet.age_estimate} onChange={(e) => updatePet('age_estimate', e.target.value)} />
                 </div>
               </div>
 
               <div className="input-group">
-                <label>Descripción</label>
-                <textarea className="input-field" placeholder="Describe características adicionales..." value={form.pet.description} onChange={(e) => updatePet('description', e.target.value)} />
+                <label>Descripcion</label>
+                <textarea className="input-field report-input report-textarea" placeholder="Describe caracteristicas adicionales" value={form.pet.description} onChange={(e) => updatePet('description', e.target.value)} />
               </div>
 
               <div className="input-group">
                 <label><Camera size={14} style={{ display: 'inline', verticalAlign: 'middle', marginRight: 4 }} />URL de foto</label>
-                <input className="input-field" placeholder="https://..." value={form.pet.photo_url} onChange={(e) => updatePet('photo_url', e.target.value)} />
+                <input className="input-field report-input" placeholder="https://..." value={form.pet.photo_url} onChange={(e) => updatePet('photo_url', e.target.value)} />
               </div>
             </div>
           )}
 
-          {/* Step 2: Location */}
           {step === 2 && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <h3><MapPin size={18} style={{ display: 'inline', verticalAlign: 'middle', marginRight: 8 }} />Ubicación</h3>
-              <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Haz clic en el mapa para marcar la ubicación</p>
+            <div className="report-step-content">
+              <h3 className="report-step-title"><MapPin size={18} style={{ display: 'inline', verticalAlign: 'middle', marginRight: 8 }} />Ubicacion</h3>
+              <p className="report-hint">Haz clic en el mapa para marcar la ubicacion</p>
 
-              <div style={{ height: '350px', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
+              <div className="report-map-wrap">
                 <MapContainer center={[-33.4489, -70.6693]} zoom={13} style={{ height: '100%', width: '100%' }}>
                   <TileLayer
                     url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
@@ -190,61 +194,59 @@ export default function ReportPet() {
               </div>
 
               {position && (
-                <p style={{ fontSize: '0.85rem', color: 'var(--emerald-400)' }}>
-                  📍 Lat: {position[0].toFixed(4)}, Lng: {position[1].toFixed(4)}
+                <p className="report-coords">
+                  Lat: {position[0].toFixed(4)}, Lng: {position[1].toFixed(4)}
                 </p>
               )}
 
               <div className="input-group">
-                <label>Dirección / Referencia</label>
-                <input className="input-field" placeholder="Ej: Av. Providencia 123, Santiago" value={form.address} onChange={(e) => updateField('address', e.target.value)} />
+                <label>Direccion / Referencia</label>
+                <input className="input-field report-input" placeholder="Ej: Av. Providencia 123, Santiago" value={form.address} onChange={(e) => updateField('address', e.target.value)} />
               </div>
 
               <div className="input-group">
                 <label>Fecha del evento</label>
-                <input type="date" className="input-field" value={form.date_event} onChange={(e) => updateField('date_event', e.target.value)} />
+                <input type="date" className="input-field report-input" value={form.date_event} onChange={(e) => updateField('date_event', e.target.value)} />
               </div>
             </div>
           )}
 
-          {/* Step 3: Contact */}
           {step === 3 && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <h3>Datos de Contacto</h3>
+            <div className="report-step-content">
+              <h3 className="report-step-title">Datos de Contacto</h3>
 
               <div className="input-group">
                 <label>Nombre de contacto</label>
-                <input className="input-field" placeholder="Tu nombre" value={form.contact_name} onChange={(e) => updateField('contact_name', e.target.value)} />
+                <input className="input-field report-input" placeholder="Tu nombre" value={form.contact_name} onChange={(e) => updateField('contact_name', e.target.value)} />
               </div>
               <div className="input-group">
-                <label>Teléfono</label>
-                <input className="input-field" placeholder="+56 9 1234 5678" value={form.contact_phone} onChange={(e) => updateField('contact_phone', e.target.value)} />
+                <label>Telefono</label>
+                <input className="input-field report-input" placeholder="+56 9 1234 5678" value={form.contact_phone} onChange={(e) => updateField('contact_phone', e.target.value)} />
               </div>
               <div className="input-group">
                 <label>Email</label>
-                <input type="email" className="input-field" placeholder="tu@email.com" value={form.contact_email} onChange={(e) => updateField('contact_email', e.target.value)} />
+                <input type="email" className="input-field report-input" placeholder="tu@email.com" value={form.contact_email} onChange={(e) => updateField('contact_email', e.target.value)} />
               </div>
               <div className="input-group">
                 <label>Notas adicionales</label>
-                <textarea className="input-field" placeholder="Cualquier información adicional..." value={form.notes} onChange={(e) => updateField('notes', e.target.value)} />
+                <textarea className="input-field report-input report-textarea" placeholder="Cualquier informacion adicional" value={form.notes} onChange={(e) => updateField('notes', e.target.value)} />
               </div>
             </div>
           )}
 
-          {/* Navigation */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '24px' }}>
+          <div className="report-nav">
             {step > 1 ? (
-              <button onClick={() => setStep(step - 1)} className="brutal-brutal-btn secondary">
+              <button onClick={() => setStep(step - 1)} className="brutal-btn secondary nav-btn">
                 <ArrowLeft size={16} /> Anterior
               </button>
             ) : <div />}
 
             {step < 3 ? (
-              <button onClick={() => setStep(step + 1)} className="brutal-brutal-btn primary">
+              <button onClick={() => setStep(step + 1)} className="brutal-btn primary nav-btn">
                 Siguiente <ArrowRight size={16} />
               </button>
             ) : (
-              <button onClick={handleSubmit} className="brutal-brutal-btn primary" disabled={loading}>
+              <button onClick={handleSubmit} className="brutal-btn primary nav-btn" disabled={loading}>
                 {loading ? 'Enviando...' : <><Send size={16} /> Enviar Reporte</>}
               </button>
             )}
