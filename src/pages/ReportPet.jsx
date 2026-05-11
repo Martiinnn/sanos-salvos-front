@@ -133,7 +133,7 @@ export default function ReportPet() {
                     onClick={() => updateField('report_type', type)}
                     className={`brutal-btn report-type-btn ${form.report_type === type ? 'primary' : 'secondary'}`}
                   >
-                    {type === 'perdido' ? 'Rojo' : 'Verde'} {type}
+                    {type === 'perdido' ? 'Perdido' : 'Encontrado'}
                   </button>
                 ))}
               </div>

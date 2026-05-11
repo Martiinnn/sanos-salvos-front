@@ -289,9 +289,9 @@ a {
 
 /* Report page polish */
 .report-page .report-container {
-  max-width: 760px;
-  padding-top: 30px;
-  padding-bottom: 60px;
+  max-width: 980px;
+  padding-top: 20px;
+  padding-bottom: 40px;
 }
 
 .report-title {
@@ -301,13 +301,13 @@ a {
 
 .report-subtitle {
   color: var(--text-muted);
-  margin-bottom: 24px;
+  margin-bottom: 14px;
 }
 
 .report-steps {
   display: flex;
   gap: 10px;
-  margin-bottom: 24px;
+  margin-bottom: 14px;
 }
 
 .step-bar {
@@ -322,18 +322,18 @@ a {
 }
 
 .report-card {
-  padding: 28px;
+  padding: 20px;
 }
 
 .report-step-content {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
 }
 
 .report-step-title {
   margin-bottom: 4px;
-  font-size: 1.9rem;
+  font-size: 1.6rem;
 }
 
 .report-type-toggle {
@@ -344,16 +344,16 @@ a {
 
 .report-type-btn {
   width: 100%;
-  padding: 14px 16px;
+  padding: 10px 14px;
   text-transform: capitalize;
-  font-size: 1rem;
+  font-size: 0.95rem;
   box-shadow: 6px 6px 0px var(--text-primary);
 }
 
 .report-page .input-group {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .report-page .input-group label {
@@ -364,20 +364,20 @@ a {
 
 .report-input {
   width: 100%;
-  min-height: 48px;
+  min-height: 44px;
   border: 2px solid var(--text-primary);
   border-radius: 0;
-  padding: 12px 14px;
+  padding: 10px 12px;
   font-size: 1rem;
 }
 
 .report-textarea {
-  min-height: 96px;
+  min-height: 84px;
   resize: vertical;
 }
 
 .form-grid-tight {
-  gap: 16px;
+  gap: 12px;
 }
 
 .report-map-wrap {
@@ -402,7 +402,7 @@ a {
   display: flex;
   justify-content: space-between;
   gap: 12px;
-  margin-top: 24px;
+  margin-top: 16px;
 }
 
 .report-nav.center {
