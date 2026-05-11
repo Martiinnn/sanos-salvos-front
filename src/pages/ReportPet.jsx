@@ -1,8 +1,9 @@
-import { useState } from 'react';
+ï»¿import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
 import { PawPrint, MapPin, Camera, Send, ArrowLeft, ArrowRight, CheckCircle } from 'lucide-react';
 import { petsAPI, geoAPI } from '../api/client';
+import { useAuth } from '../context/AuthContext';
 
 function LocationPicker({ position, setPosition }) {
   useMapEvents({
@@ -15,6 +16,7 @@ function LocationPicker({ position, setPosition }) {
 
 export default function ReportPet() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -45,6 +47,16 @@ export default function ReportPet() {
 
   const updatePet = (field, value) => setForm({ ...form, pet: { ...form.pet, [field]: value } });
   const updateField = (field, value) => setForm({ ...form, [field]: value });
+
+  useEffect(() => {
+    if (!user) return;
+    setForm((prev) => ({
+      ...prev,
+      contact_name: prev.contact_name || user.full_name || user.username || '',
+      contact_phone: prev.contact_phone || user.phone || '',
+      contact_email: prev.contact_email || user.email || '',
+    }));
+  }, [user]);
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -155,7 +167,7 @@ export default function ReportPet() {
                 <div className="input-group">
                   <label>Tamano *</label>
                   <select className="input-field report-input" value={form.pet.size} onChange={(e) => updatePet('size', e.target.value)}>
-                    <option value="pequeño">Pequeño</option>
+                    <option value="pequeÃ±o">PequeÃ±o</option>
                     <option value="mediano">Mediano</option>
                     <option value="grande">Grande</option>
                   </select>
