@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { PawPrint, LogIn } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
@@ -15,28 +15,26 @@ export default function Login() {
     e.preventDefault();
     setError('');
     setLoading(true);
-    
+
     try {
       const success = await login(email, password);
       if (success) {
         navigate('/');
       } else {
-        setError('Credenciales inválidas');
+        setError('Credenciales invalidas');
       }
     } catch (err) {
-      setError('Error al intentar iniciar sesión');
+      setError(err.response?.data?.detail || 'Error al intentar iniciar sesion');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }}>
-      
-      <div className="brutal-card animate-in" style={{ width: '100%', maxWidth: '500px', padding: '50px 40px' }}>
-        
+    <div className="auth-page" style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }}>
+      <div className="brutal-card animate-in auth-card" style={{ width: '100%', maxWidth: '500px', padding: '50px 40px' }}>
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-          <div style={{ 
+          <div style={{
             display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
             width: '60px', height: '60px', background: 'var(--accent-blue)', color: 'white',
             border: 'var(--border-thick)', borderRadius: 'var(--radius-sharp)', marginBottom: '20px'
@@ -48,7 +46,7 @@ export default function Login() {
         </div>
 
         {error && (
-          <div style={{ 
+          <div style={{
             background: 'var(--accent-orange)', color: 'white', padding: '16px',
             border: 'var(--border-thick)', fontWeight: 700, marginBottom: '24px',
             textAlign: 'center'
@@ -58,11 +56,10 @@ export default function Login() {
         )}
 
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          
           <div>
             <label className="display-font" style={{ display: 'block', fontSize: '1.1rem', marginBottom: '8px' }}>EMAIL</label>
-            <input 
-              type="email" 
+            <input
+              type="email"
               className="brutal-input"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -71,9 +68,9 @@ export default function Login() {
           </div>
 
           <div>
-            <label className="display-font" style={{ display: 'block', fontSize: '1.1rem', marginBottom: '8px' }}>CONTRASEÑA</label>
-            <input 
-              type="password" 
+            <label className="display-font" style={{ display: 'block', fontSize: '1.1rem', marginBottom: '8px' }}>CONTRASENA</label>
+            <input
+              type="password"
               className="brutal-input"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -82,15 +79,14 @@ export default function Login() {
           </div>
 
           <button type="submit" className="brutal-btn primary" disabled={loading} style={{ marginTop: '20px', width: '100%' }}>
-            {loading ? 'AUTENTICANDO...' : <><LogIn size={20} /> INICIAR SESIÓN</>}
+            {loading ? 'AUTENTICANDO...' : <><LogIn size={20} /> INICIAR SESION</>}
           </button>
         </form>
 
         <div style={{ textAlign: 'center', marginTop: '30px', fontWeight: 600 }}>
-          ¿No tienes cuenta? <Link to="/register" style={{ color: 'var(--accent-blue)', textDecoration: 'underline' }}>Regístrate</Link>
+          No tienes cuenta? <Link to="/register" style={{ color: 'var(--accent-blue)', textDecoration: 'underline' }}>Registrate</Link>
         </div>
       </div>
-      
     </div>
   );
 }

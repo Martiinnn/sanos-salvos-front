@@ -31,11 +31,11 @@ export default function Register() {
   };
 
   return (
-    <div style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }}>
-      <div className="brutal-card animate-in" style={{ width: '100%', maxWidth: '500px', padding: '30px 40px' }}>
-        
+    <div className="auth-page" style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }}>
+      <div className="brutal-card animate-in auth-card register-card" style={{ width: '100%', maxWidth: '700px', padding: '30px 40px' }}>
+
         <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-          <div style={{ 
+          <div style={{
             display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
             width: '48px', height: '48px', background: 'var(--accent-orange)', color: 'white',
             border: 'var(--border-thick)', borderRadius: 'var(--radius-sharp)', marginBottom: '10px'
@@ -47,7 +47,7 @@ export default function Register() {
         </div>
 
         {error && (
-          <div style={{ 
+          <div style={{
             background: 'var(--accent-orange)', color: 'white', padding: '16px',
             border: 'var(--border-thick)', fontWeight: 700, marginBottom: '24px',
             textAlign: 'center'
@@ -56,8 +56,8 @@ export default function Register() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          
+        <form onSubmit={handleSubmit} className="register-form" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+
           <div>
             <label className="display-font" style={{ display: 'block', fontSize: '0.9rem', marginBottom: '4px' }}>NOMBRE COMPLETO</label>
             <input name="full_name" className="brutal-input" placeholder="Ej. Juan Pérez"
@@ -82,13 +82,13 @@ export default function Register() {
               value={form.phone} onChange={handleChange} />
           </div>
 
-          <div>
+          <div style={{ gridColumn: '1 / -1' }}>
             <label className="display-font" style={{ display: 'block', fontSize: '0.9rem', marginBottom: '4px' }}>CONTRASEÑA</label>
             <input type="password" name="password" className="brutal-input" placeholder="••••••••"
               value={form.password} onChange={handleChange} required />
           </div>
 
-          <button type="submit" className="brutal-btn primary" disabled={loading} style={{ marginTop: '10px', width: '100%', padding: '12px 24px' }}>
+          <button type="submit" className="brutal-btn primary" disabled={loading} style={{ gridColumn: '1 / -1', marginTop: '10px', width: '100%', padding: '12px 24px' }}>
             {loading ? 'CREANDO...' : <><UserPlus size={20} /> CREAR CUENTA</>}
           </button>
         </form>
