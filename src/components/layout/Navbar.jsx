@@ -64,23 +64,23 @@ export default function Navbar() {
   };
 
   return (
-    <nav style={{
+    <nav className="navbar-root" style={{
       position: 'sticky', top: 0, zIndex: 50,
       background: 'var(--bg-primary)',
       borderBottom: 'var(--border-thick)',
       padding: '20px 0'
     }}>
-      <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div className="container navbar-inner" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         
         {/* Logo */}
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <Link to="/" className="navbar-logo" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <div style={{
             background: 'var(--text-primary)', color: 'var(--bg-primary)',
             padding: '8px', border: 'var(--border-thin)', borderRadius: 'var(--radius-sharp)'
           }}>
             <PawPrint size={24} strokeWidth={2.5} />
           </div>
-          <span className="display-font" style={{ fontSize: '1.6rem', letterSpacing: '-0.05em' }}>
+          <span className="display-font navbar-logo-text" style={{ fontSize: '1.6rem', letterSpacing: '-0.05em' }}>
             SANOS<span style={{ color: 'var(--accent-orange)' }}>&</span>SALVOS
           </span>
         </Link>
@@ -92,7 +92,7 @@ export default function Navbar() {
         </div>
 
         {/* Auth Buttons */}
-        <div style={{ display: 'none', gap: '16px', alignItems: 'center' }} className="md-flex">
+        <div style={{ display: 'none', gap: '16px', alignItems: 'center' }} className="md-flex navbar-auth-wrap">
           <button
             onClick={handleMatchesClick}
             className="nav-icon-btn"

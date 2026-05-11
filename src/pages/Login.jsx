@@ -31,8 +31,8 @@ export default function Login() {
   };
 
   return (
-    <div style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }}>
-      <div className="brutal-card animate-in" style={{ width: '100%', maxWidth: '500px', padding: '50px 40px' }}>
+    <div className="auth-page" style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }}>
+      <div className="brutal-card animate-in auth-card" style={{ width: '100%', maxWidth: '500px', padding: '50px 40px' }}>
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
           <div style={{
             display: 'inline-flex', alignItems: 'center', justifyContent: 'center',

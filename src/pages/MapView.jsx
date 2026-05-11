@@ -115,7 +115,7 @@ export default function MapView() {
               </p>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', minWidth: '320px', maxWidth: '100%' }}>
+            <div className="map-controls-wrap" style={{ display: 'flex', flexDirection: 'column', gap: '10px', minWidth: '320px', maxWidth: '100%' }}>
               <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', background: 'var(--bg-secondary)', padding: '8px', border: 'var(--border-thick)' }}>
                 {[
                   { value: 'todos', label: 'Todos' },
@@ -163,7 +163,7 @@ export default function MapView() {
       </div>
 
       <div className="container" style={{ marginTop: '40px' }}>
-        <div className="animate-in delay-1" style={{
+        <div className="animate-in delay-1 map-shell" style={{
           border: 'var(--border-thick)',
           background: 'var(--bg-secondary)',
           boxShadow: '16px 16px 0px var(--text-primary)',

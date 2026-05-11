@@ -31,8 +31,8 @@ export default function Register() {
   };
 
   return (
-    <div style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }}>
-      <div className="brutal-card animate-in" style={{ width: '100%', maxWidth: '700px', padding: '30px 40px' }}>
+    <div className="auth-page" style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }}>
+      <div className="brutal-card animate-in auth-card register-card" style={{ width: '100%', maxWidth: '700px', padding: '30px 40px' }}>
 
         <div style={{ textAlign: 'center', marginBottom: '20px' }}>
           <div style={{
@@ -56,7 +56,7 @@ export default function Register() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+        <form onSubmit={handleSubmit} className="register-form" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
 
           <div>
             <label className="display-font" style={{ display: 'block', fontSize: '0.9rem', marginBottom: '4px' }}>NOMBRE COMPLETO</label>
