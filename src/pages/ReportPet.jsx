@@ -59,7 +59,64 @@ export default function ReportPet() {
     }));
   }, [user]);
 
+  const validateStep = (targetStep) => {
+    if (targetStep === 1) {
+      if (!form.pet.color?.trim()) {
+        showToast('Completa el color de la mascota.', 'warning');
+        return false;
+      }
+      if (!form.pet.size?.trim()) {
+        showToast('Selecciona el tamano de la mascota.', 'warning');
+        return false;
+      }
+      return true;
+    }
+
+    if (targetStep === 2) {
+      const lat = position ? position[0] : form.latitude;
+      const lng = position ? position[1] : form.longitude;
+      if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
+        showToast('Debes marcar una ubicacion valida en el mapa.', 'warning');
+        return false;
+      }
+      if (!form.date_event) {
+        showToast('Debes ingresar la fecha del evento.', 'warning');
+        return false;
+      }
+      return true;
+    }
+
+    if (targetStep === 3) {
+      if (!form.contact_name?.trim()) {
+        showToast('Ingresa un nombre de contacto.', 'warning');
+        return false;
+      }
+      if (!form.contact_phone?.trim()) {
+        showToast('Ingresa un telefono de contacto.', 'warning');
+        return false;
+      }
+      if (!form.contact_email?.trim()) {
+        showToast('Ingresa un email de contacto.', 'warning');
+        return false;
+      }
+      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.contact_email.trim());
+      if (!emailOk) {
+        showToast('Ingresa un email valido.', 'warning');
+        return false;
+      }
+      return true;
+    }
+
+    return true;
+  };
+
+  const handleNext = () => {
+    if (!validateStep(step)) return;
+    setStep((prev) => Math.min(prev + 1, 3));
+  };
+
   const handleSubmit = async () => {
+    if (!validateStep(1) || !validateStep(2) || !validateStep(3)) return;
     setLoading(true);
     try {
       const data = {
@@ -255,7 +312,7 @@ export default function ReportPet() {
             ) : <div />}
 
             {step < 3 ? (
-              <button onClick={() => setStep(step + 1)} className="brutal-btn primary nav-btn">
+              <button onClick={handleNext} className="brutal-btn primary nav-btn">
                 Siguiente <ArrowRight size={16} />
               </button>
             ) : (
