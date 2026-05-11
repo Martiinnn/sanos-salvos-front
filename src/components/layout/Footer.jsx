@@ -1,4 +1,4 @@
-import { Heart, Github, Twitter } from 'lucide-react';
+import { Heart } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -29,15 +29,10 @@ export default function Footer() {
           </div>
           
           <div>
-            <h4 className="display-font" style={{ fontSize: '1.2rem', marginBottom: '20px', color: 'var(--text-muted)' }}>CONECTAR</h4>
-            <div style={{ display: 'flex', gap: '16px' }}>
-              <a href="#" style={{ padding: '12px', border: '2px solid var(--bg-primary)', borderRadius: 'var(--radius-sharp)' }}>
-                <Github size={24} />
-              </a>
-              <a href="#" style={{ padding: '12px', border: '2px solid var(--bg-primary)', borderRadius: 'var(--radius-sharp)' }}>
-                <Twitter size={24} />
-              </a>
-            </div>
+            <h4 className="display-font" style={{ fontSize: '1.2rem', marginBottom: '20px', color: 'var(--text-muted)' }}>ESTADO</h4>
+            <p style={{ fontWeight: 600, maxWidth: '300px' }}>
+              Plataforma operativa para reportes, autenticacion y seguimiento de coincidencias.
+            </p>
           </div>
         </div>
         
