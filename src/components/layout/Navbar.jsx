@@ -2,6 +2,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { PawPrint, User, LogOut, Menu, X, Bell } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { notificationsAPI } from '../../api/client';
 
 export default function Navbar() {
   const { user, logout } = useAuth();
@@ -10,12 +11,41 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [notifications, setNotifications] = useState(0);
 
-  // Reset notifications when visiting matches page
+  // Reset visual badge while user is on matches page
   useEffect(() => {
     if (location.pathname === '/matches') {
       setNotifications(0);
     }
   }, [location.pathname]);
+
+  // Poll unread notifications count for current user
+  useEffect(() => {
+    let cancelled = false;
+    let intervalId;
+
+    const fetchUnread = async () => {
+      if (!user?.id) {
+        if (!cancelled) setNotifications(0);
+        return;
+      }
+      try {
+        const res = await notificationsAPI.getUnreadCount(user.id);
+        if (!cancelled && location.pathname !== '/matches') {
+          setNotifications(res.data?.count || 0);
+        }
+      } catch {
+        if (!cancelled) setNotifications(0);
+      }
+    };
+
+    fetchUnread();
+    intervalId = setInterval(fetchUnread, 10000);
+
+    return () => {
+      cancelled = true;
+      clearInterval(intervalId);
+    };
+  }, [user?.id, location.pathname]);
 
   const handleLogout = () => {
     logout();
@@ -48,8 +78,8 @@ export default function Navbar() {
         <div style={{ display: 'none', gap: '32px', alignItems: 'center' }} className="md-flex">
           <Link to="/" style={{ fontWeight: 700, textTransform: 'uppercase' }}>INICIO</Link>
           <Link to="/map" style={{ fontWeight: 700, textTransform: 'uppercase' }}>MAPA</Link>
-          <Link to="/matches" style={{ position: 'relative', fontWeight: 700, textTransform: 'uppercase' }}>
-            COINCIDENCIAS
+          <Link to="/matches" style={{ position: 'relative', fontWeight: 700, textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <Bell size={16} /> COINCIDENCIAS
             {notifications > 0 && (
               <span style={{
                 position: 'absolute', top: '-8px', right: '-15px',

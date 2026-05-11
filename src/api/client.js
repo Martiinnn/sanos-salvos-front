@@ -82,9 +82,9 @@ export const matchesAPI = {
 
 // Notifications
 export const notificationsAPI = {
-  getAll: () => api.get('/notifications/'),
-  getUnreadCount: () => api.get('/notifications/unread-count'),
-  markRead: (id) => api.patch(`/notifications/${id}/read`),
+  getAll: (userId) => api.get('/notifications/', { params: userId ? { user_id: userId } : {} }),
+  getUnreadCount: (userId) => api.get('/notifications/unread-count', { params: userId ? { user_id: userId } : {} }),
+  markRead: (id, userId) => api.patch(`/notifications/${id}/read`, null, { params: userId ? { user_id: userId } : {} }),
 };
 
 export default api;
