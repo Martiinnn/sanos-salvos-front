@@ -207,6 +207,51 @@ a {
 .leaflet-popup-content-wrapper { border: var(--border-thick); border-radius: var(--radius-sharp); box-shadow: 8px 8px 0px var(--text-primary); }
 .leaflet-popup-tip { border-top: var(--border-thick); border-left: var(--border-thick); }
 
+/* Navbar icon button */
+.nav-icon-btn {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid var(--text-primary);
+  background: white;
+  color: var(--text-primary);
+  cursor: pointer;
+  box-shadow: 4px 4px 0px var(--text-primary);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.nav-icon-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px var(--text-primary);
+}
+
+.nav-icon-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0px var(--text-primary);
+}
+
+.nav-icon-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border: 2px solid var(--text-primary);
+  border-radius: 999px;
+  background: var(--accent-orange);
+  color: white;
+  font-size: 0.68rem;
+  font-weight: 800;
+  line-height: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* Toasts */
 .toast-stack {
   position: fixed;

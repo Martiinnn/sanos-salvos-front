@@ -95,18 +95,12 @@ export default function Navbar() {
         <div style={{ display: 'none', gap: '16px', alignItems: 'center' }} className="md-flex">
           <button
             onClick={handleMatchesClick}
-            className="brutal-btn"
-            style={{ padding: '8px 12px', position: 'relative' }}
+            className="nav-icon-btn"
             title="Coincidencias"
           >
             <Bell size={16} />
             {notifications > 0 && (
-              <span style={{
-                position: 'absolute', top: '-8px', right: '-8px',
-                background: 'var(--accent-orange)', color: 'white',
-                fontSize: '0.7rem', padding: '2px 6px', fontWeight: 800,
-                border: 'var(--border-thin)'
-              }}>
+              <span className="nav-icon-badge">
                 {notifications}
               </span>
             )}
