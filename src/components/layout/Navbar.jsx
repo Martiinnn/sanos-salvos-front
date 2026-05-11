@@ -52,6 +52,16 @@ export default function Navbar() {
     navigate('/');
   };
 
+  const handleMatchesClick = () => {
+    if (!user) {
+      alert('Debes iniciar sesion para ver las coincidencias.');
+      navigate('/login');
+      return;
+    }
+    navigate('/matches');
+    setIsOpen(false);
+  };
+
   return (
     <nav style={{
       position: 'sticky', top: 0, zIndex: 50,
@@ -78,11 +88,20 @@ export default function Navbar() {
         <div style={{ display: 'none', gap: '32px', alignItems: 'center' }} className="md-flex">
           <Link to="/" style={{ fontWeight: 700, textTransform: 'uppercase' }}>INICIO</Link>
           <Link to="/map" style={{ fontWeight: 700, textTransform: 'uppercase' }}>MAPA</Link>
-          <Link to="/matches" style={{ position: 'relative', fontWeight: 700, textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <Bell size={16} /> COINCIDENCIAS
+        </div>
+
+        {/* Auth Buttons */}
+        <div style={{ display: 'none', gap: '16px', alignItems: 'center' }} className="md-flex">
+          <button
+            onClick={handleMatchesClick}
+            className="brutal-btn"
+            style={{ padding: '8px 12px', position: 'relative' }}
+            title="Coincidencias"
+          >
+            <Bell size={16} />
             {notifications > 0 && (
               <span style={{
-                position: 'absolute', top: '-8px', right: '-15px',
+                position: 'absolute', top: '-8px', right: '-8px',
                 background: 'var(--accent-orange)', color: 'white',
                 fontSize: '0.7rem', padding: '2px 6px', fontWeight: 800,
                 border: 'var(--border-thin)'
@@ -90,11 +109,7 @@ export default function Navbar() {
                 {notifications}
               </span>
             )}
-          </Link>
-        </div>
-
-        {/* Auth Buttons */}
-        <div style={{ display: 'none', gap: '16px', alignItems: 'center' }} className="md-flex">
+          </button>
           {user ? (
             <>
               <span style={{ fontWeight: 700, textTransform: 'uppercase' }}><User size={16} style={{display:'inline', marginBottom:'-2px'}}/> {user.full_name || user.username}</span>
@@ -128,7 +143,9 @@ export default function Navbar() {
         }}>
           <Link to="/" onClick={() => setIsOpen(false)} style={{ fontWeight: 700, fontSize:'1.2rem' }}>INICIO</Link>
           <Link to="/map" onClick={() => setIsOpen(false)} style={{ fontWeight: 700, fontSize:'1.2rem' }}>MAPA</Link>
-          <Link to="/matches" onClick={() => setIsOpen(false)} style={{ fontWeight: 700, fontSize:'1.2rem' }}>COINCIDENCIAS</Link>
+          <button onClick={handleMatchesClick} className="brutal-btn" style={{ width: '100%' }}>
+            <Bell size={16} /> Coincidencias
+          </button>
           <hr style={{ border: 'none', borderTop: 'var(--border-thin)' }} />
           {user ? (
             <button onClick={() => { handleLogout(); setIsOpen(false); }} className="brutal-btn" style={{ width: '100%' }}>SALIR</button>
