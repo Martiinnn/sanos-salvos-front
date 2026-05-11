@@ -73,10 +73,18 @@ export default function ReportPet() {
     }
 
     if (targetStep === 2) {
-      const lat = position ? position[0] : form.latitude;
-      const lng = position ? position[1] : form.longitude;
+      const lat = position ? position[0] : null;
+      const lng = position ? position[1] : null;
+      if (!position) {
+        showToast('Debes marcar un pin en el mapa.', 'warning');
+        return false;
+      }
       if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
         showToast('Debes marcar una ubicacion valida en el mapa.', 'warning');
+        return false;
+      }
+      if (!form.address?.trim()) {
+        showToast('Completa la direccion o referencia del lugar.', 'warning');
         return false;
       }
       if (!form.date_event) {
