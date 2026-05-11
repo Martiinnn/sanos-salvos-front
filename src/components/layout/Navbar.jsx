@@ -3,6 +3,7 @@ import { PawPrint, User, LogOut, Menu, X, Bell } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { notificationsAPI } from '../../api/client';
+import { showToast } from '../../utils/toast';
 
 export default function Navbar() {
   const { user, logout } = useAuth();
@@ -54,7 +55,7 @@ export default function Navbar() {
 
   const handleMatchesClick = () => {
     if (!user) {
-      alert('Debes iniciar sesion para ver las coincidencias.');
+      showToast('Debes iniciar sesion para ver las coincidencias.', 'warning');
       navigate('/login');
       return;
     }

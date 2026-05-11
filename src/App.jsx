@@ -7,6 +7,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
+import ToastHost from './components/layout/ToastHost';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -14,6 +15,7 @@ import ReportPet from './pages/ReportPet';
 import MapView from './pages/MapView';
 import Matches from './pages/Matches';
 import { useAuth } from './context/AuthContext';
+import { showToast } from './utils/toast';
 
 function RequireAuth({ children }) {
   const { user, loading } = useAuth();
@@ -21,7 +23,7 @@ function RequireAuth({ children }) {
 
   useEffect(() => {
     if (!loading && !user) {
-      alert('Debes iniciar sesion para ver las coincidencias.');
+      showToast('Debes iniciar sesion para ver las coincidencias.', 'warning');
       navigate('/login', { replace: true });
     }
   }, [loading, user, navigate]);
@@ -34,6 +36,7 @@ function App() {
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Navbar />
+      <ToastHost />
       <main style={{ flex: 1 }}>
         <Routes>
           <Route path="/" element={<Home />} />

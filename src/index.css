@@ -207,6 +207,41 @@ a {
 .leaflet-popup-content-wrapper { border: var(--border-thick); border-radius: var(--radius-sharp); box-shadow: 8px 8px 0px var(--text-primary); }
 .leaflet-popup-tip { border-top: var(--border-thick); border-left: var(--border-thick); }
 
+/* Toasts */
+.toast-stack {
+  position: fixed;
+  top: 94px;
+  right: 20px;
+  z-index: 120;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.toast-item {
+  min-width: 260px;
+  max-width: 360px;
+  padding: 12px 14px;
+  border: var(--border-thick);
+  box-shadow: 6px 6px 0px var(--text-primary);
+  background: white;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 1.2;
+  animation: slideUpFade 0.2s ease-out forwards;
+}
+
+.toast-item.warning {
+  background: #fff1e8;
+}
+
+.toast-item.info {
+  background: #eef4ff;
+}
+
 /* Report page polish */
 .report-page .report-container {
   max-width: 760px;
