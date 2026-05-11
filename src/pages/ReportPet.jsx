@@ -61,12 +61,24 @@ export default function ReportPet() {
 
   const validateStep = (targetStep) => {
     if (targetStep === 1) {
+      if (!form.pet.name?.trim()) {
+        showToast('Completa el nombre de la mascota.', 'warning');
+        return false;
+      }
       if (!form.pet.color?.trim()) {
         showToast('Completa el color de la mascota.', 'warning');
         return false;
       }
       if (!form.pet.size?.trim()) {
         showToast('Selecciona el tamano de la mascota.', 'warning');
+        return false;
+      }
+      if (!form.pet.description?.trim()) {
+        showToast('La descripcion de la mascota es obligatoria.', 'warning');
+        return false;
+      }
+      if (form.pet.description.trim().length < 10) {
+        showToast('La descripcion debe tener al menos 10 caracteres.', 'warning');
         return false;
       }
       return true;
