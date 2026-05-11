@@ -4,6 +4,7 @@ import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
 import { PawPrint, MapPin, Camera, Send, ArrowLeft, ArrowRight, CheckCircle } from 'lucide-react';
 import { petsAPI, geoAPI } from '../api/client';
 import { useAuth } from '../context/AuthContext';
+import { showToast } from '../utils/toast';
 
 function LocationPicker({ position, setPosition }) {
   useMapEvents({
@@ -79,7 +80,7 @@ export default function ReportPet() {
 
       setSuccess(true);
     } catch (err) {
-      alert(err.response?.data?.detail || 'Error al crear reporte');
+      showToast(err.response?.data?.detail || 'Error al crear reporte', 'warning');
     } finally {
       setLoading(false);
     }
