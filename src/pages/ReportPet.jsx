@@ -1,5 +1,5 @@
-ï»¿import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
 import { PawPrint, MapPin, Camera, Send, ArrowLeft, ArrowRight, CheckCircle } from 'lucide-react';
 import { petsAPI, geoAPI } from '../api/client';
@@ -17,6 +17,7 @@ function LocationPicker({ position, setPosition }) {
 
 export default function ReportPet() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { user } = useAuth();
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -245,7 +246,7 @@ export default function ReportPet() {
                 <div className="input-group">
                   <label>Tamano *</label>
                   <select className="input-field report-input" value={form.pet.size} onChange={(e) => updatePet('size', e.target.value)}>
-                    <option value="pequeÃ±o">PequeÃ±o</option>
+                    <option value="pequeño">Pequeño</option>
                     <option value="mediano">Mediano</option>
                     <option value="grande">Grande</option>
                   </select>
@@ -346,3 +347,5 @@ export default function ReportPet() {
     </div>
   );
 }
+
+

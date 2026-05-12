@@ -1,4 +1,5 @@
-﻿import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import { MapPin, Loader, LocateFixed, Search, RotateCcw } from 'lucide-react';
@@ -35,6 +36,7 @@ function normalizeReport(raw, index) {
 }
 
 export default function MapView() {
+  const navigate = useNavigate();
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('todos');
@@ -211,7 +213,7 @@ export default function MapView() {
                         </div>
                       )}
 
-                      <p style={{ margin: '4px 0', fontSize: '0.9rem', fontWeight: 600 }}>{r.species || '-'} • {r.breed || '-'}</p>
+                      <p style={{ margin: '4px 0', fontSize: '0.9rem', fontWeight: 600 }}>{r.species || '-'} � {r.breed || '-'}</p>
                       <p style={{ margin: '4px 0', fontSize: '0.9rem', color: 'var(--text-muted)' }}>{r.color || '-'} | {r.size || '-'}</p>
                       {r.address && <p style={{ margin: '6px 0 0', fontSize: '0.85rem' }}>{r.address}</p>}
                     </div>
@@ -266,3 +268,7 @@ export default function MapView() {
     </div>
   );
 }
+
+
+
+
