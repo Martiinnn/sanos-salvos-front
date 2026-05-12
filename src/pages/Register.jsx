@@ -28,8 +28,16 @@ export default function Register() {
         setError('La contrasena es muy debil (minimo 6 caracteres)');
       } else if (code === 'auth/invalid-email') {
         setError('Email invalido');
+      } else if (code === 'auth/operation-not-allowed') {
+        setError('Registro con email/contrasena no habilitado en Firebase');
+      } else if (code === 'auth/admin-restricted-operation') {
+        setError('Operacion restringida por la configuracion del proyecto Firebase');
+      } else if (code === 'auth/network-request-failed') {
+        setError('Fallo de red al registrar. Revisa conexion e intenta de nuevo');
+      } else if (code === 'auth/too-many-requests') {
+        setError('Demasiados intentos. Espera un momento e intenta otra vez');
       } else {
-        setError('Error al registrar');
+        setError(`Error Firebase: ${code || 'desconocido'}`);
       }
     } finally {
       setLoading(false);
