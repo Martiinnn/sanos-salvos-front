@@ -8,7 +8,8 @@ export default function Login() {
   const [password, setPassword] = useState('demo123');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
+  const [googleLoading, setGoogleLoading] = useState(false);
+  const { login, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -32,6 +33,24 @@ export default function Login() {
       }
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    setError('');
+    setGoogleLoading(true);
+    try {
+      await loginWithGoogle();
+      navigate('/');
+    } catch (err) {
+      const code = err?.code || '';
+      if (code === 'auth/popup-closed-by-user') {
+        setError('Cerraste la ventana de Google antes de completar el ingreso');
+      } else {
+        setError('No se pudo iniciar sesion con Google');
+      }
+    } finally {
+      setGoogleLoading(false);
     }
   };
 
@@ -87,6 +106,16 @@ export default function Login() {
             {loading ? 'AUTENTICANDO...' : <><LogIn size={20} /> INICIAR SESION</>}
           </button>
         </form>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '18px', marginBottom: '10px' }}>
+          <div style={{ flex: 1, height: '2px', background: 'var(--text-primary)' }} />
+          <span style={{ fontWeight: 700, fontSize: '0.85rem' }}>O</span>
+          <div style={{ flex: 1, height: '2px', background: 'var(--text-primary)' }} />
+        </div>
+
+        <button onClick={handleGoogleLogin} className="brutal-btn secondary" style={{ width: '100%' }} disabled={googleLoading}>
+          {googleLoading ? 'ABRIENDO GOOGLE...' : 'CONTINUAR CON GOOGLE'}
+        </button>
 
         <div style={{ textAlign: 'center', marginTop: '30px', fontWeight: 600 }}>
           No tienes cuenta? <Link to="/register" style={{ color: 'var(--accent-blue)', textDecoration: 'underline' }}>Registrate</Link>

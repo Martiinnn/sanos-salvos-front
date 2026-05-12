@@ -1,7 +1,9 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import {
   createUserWithEmailAndPassword,
+  GoogleAuthProvider,
   onAuthStateChanged,
+  signInWithPopup,
   signInWithEmailAndPassword,
   signOut,
   updateProfile,
@@ -50,13 +52,20 @@ export function AuthProvider({ children }) {
     return mapFirebaseUser(refreshedUser);
   };
 
+  const loginWithGoogle = async () => {
+    const provider = new GoogleAuthProvider();
+    const res = await signInWithPopup(firebaseAuth, provider);
+    setUser(mapFirebaseUser(res.user));
+    return mapFirebaseUser(res.user);
+  };
+
   const logout = async () => {
     await signOut(firebaseAuth);
     setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, register, loginWithGoogle, logout }}>
       {children}
     </AuthContext.Provider>
   );
