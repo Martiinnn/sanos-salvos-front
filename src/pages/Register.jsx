@@ -24,7 +24,16 @@ export default function Register() {
       await register(form);
       navigate('/');
     } catch (err) {
-      setError(err.response?.data?.detail || 'Error al registrar');
+      const code = err?.code || '';
+      if (code === 'auth/email-already-in-use') {
+        setError('El email ya esta registrado');
+      } else if (code === 'auth/weak-password') {
+        setError('La contrasena es muy debil (minimo 6 caracteres)');
+      } else if (code === 'auth/invalid-email') {
+        setError('Email invalido');
+      } else {
+        setError('Error al registrar');
+      }
     } finally {
       setLoading(false);
     }

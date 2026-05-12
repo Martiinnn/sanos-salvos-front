@@ -24,7 +24,12 @@ export default function Login() {
         setError('Credenciales invalidas');
       }
     } catch (err) {
-      setError(err.response?.data?.detail || 'Error al intentar iniciar sesion');
+      const code = err?.code || '';
+      if (code === 'auth/invalid-credential' || code === 'auth/wrong-password' || code === 'auth/user-not-found') {
+        setError('Credenciales invalidas');
+      } else {
+        setError('Error al intentar iniciar sesion');
+      }
     } finally {
       setLoading(false);
     }
