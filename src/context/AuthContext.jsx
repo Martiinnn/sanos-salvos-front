@@ -1,56 +1,71 @@
-/**
- * Sanos y Salvos — Auth Context
- * Manages authentication state across the app.
- */
-
-import { createContext, useContext, useState, useEffect } from 'react';
-import { authAPI } from '../api/client';
+import { createContext, useContext, useEffect, useState } from 'react';
+import {
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  signInWithPopup,
+  signInWithEmailAndPassword,
+  signOut,
+  updateProfile,
+} from 'firebase/auth';
+import { firebaseAuth } from '../lib/firebase';
 
 const AuthContext = createContext(null);
+
+function mapFirebaseUser(user) {
+  if (!user) return null;
+  return {
+    id: user.uid,
+    email: user.email || '',
+    username: user.displayName || (user.email ? user.email.split('@')[0] : ''),
+    full_name: user.displayName || '',
+    phone: user.phoneNumber || '',
+  };
+}
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem('access_token');
-    if (token) {
-      authAPI.me()
-        .then((res) => setUser(res.data))
-        .catch(() => {
-          localStorage.removeItem('access_token');
-          localStorage.removeItem('refresh_token');
-        })
-        .finally(() => setLoading(false));
-    } else {
+    const unsub = onAuthStateChanged(firebaseAuth, (currentUser) => {
+      setUser(mapFirebaseUser(currentUser));
       setLoading(false);
-    }
+    });
+    return () => unsub();
   }, []);
 
   const login = async (email, password) => {
-    const res = await authAPI.login({ email, password });
-    localStorage.setItem('access_token', res.data.access_token);
-    localStorage.setItem('refresh_token', res.data.refresh_token);
-    setUser(res.data.user);
-    return res.data;
+    const res = await signInWithEmailAndPassword(firebaseAuth, email, password);
+    setUser(mapFirebaseUser(res.user));
+    return mapFirebaseUser(res.user);
   };
 
   const register = async (data) => {
-    const res = await authAPI.register(data);
-    localStorage.setItem('access_token', res.data.access_token);
-    localStorage.setItem('refresh_token', res.data.refresh_token);
-    setUser(res.data.user);
-    return res.data;
+    const res = await createUserWithEmailAndPassword(firebaseAuth, data.email, data.password);
+    const displayName = data.full_name?.trim() || data.username?.trim() || data.email.split('@')[0];
+    if (displayName) {
+      await updateProfile(res.user, { displayName });
+    }
+    const refreshedUser = firebaseAuth.currentUser;
+    setUser(mapFirebaseUser(refreshedUser));
+    return mapFirebaseUser(refreshedUser);
   };
 
-  const logout = () => {
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
+  const loginWithGoogle = async () => {
+    const provider = new GoogleAuthProvider();
+    const res = await signInWithPopup(firebaseAuth, provider);
+    setUser(mapFirebaseUser(res.user));
+    return mapFirebaseUser(res.user);
+  };
+
+  const logout = async () => {
+    await signOut(firebaseAuth);
     setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, register, loginWithGoogle, logout }}>
       {children}
     </AuthContext.Provider>
   );

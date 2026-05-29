@@ -2,11 +2,11 @@ FROM node:22-slim
 
 WORKDIR /app
 
-COPY package*.json .
-RUN npm install
+COPY package.json pnpm-lock.yaml ./
+RUN corepack enable && pnpm install --frozen-lockfile
 
 COPY . .
 
 EXPOSE 5173
 
-CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+CMD ["pnpm", "dev", "--", "--host", "0.0.0.0"]

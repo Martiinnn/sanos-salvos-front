@@ -62,10 +62,10 @@ function MatchCard({ match, onAction }) {
 
       {match.status === 'pendiente' && (
         <div style={{ display: 'flex', gap: '8px', marginTop: '16px' }}>
-          <button onClick={() => onAction(match._id, 'confirmado')} className="brutal-brutal-btn primary btn-sm" style={{ flex: 1 }}>
+          <button onClick={() => onAction(match._id, 'confirmado')} className="brutal-btn primary btn-sm" style={{ flex: 1 }}>
             <CheckCircle size={14} /> Confirmar
           </button>
-          <button onClick={() => onAction(match._id, 'descartado')} className="brutal-brutal-btn secondary btn-sm" style={{ flex: 1 }}>
+          <button onClick={() => onAction(match._id, 'descartado')} className="brutal-btn secondary btn-sm" style={{ flex: 1 }}>
             <XCircle size={14} /> Descartar
           </button>
         </div>

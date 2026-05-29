@@ -8,11 +8,11 @@ export default function Login() {
   const [password, setPassword] = useState('demo123');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
+  const [googleLoading, setGoogleLoading] = useState(false);
+  const { login, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const redirectTo = location.state?.from || '/';
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -26,15 +26,38 @@ export default function Login() {
         setError('Credenciales invalidas');
       }
     } catch (err) {
-      setError('Error al intentar iniciar sesion');
+      const code = err?.code || '';
+      if (code === 'auth/invalid-credential' || code === 'auth/wrong-password' || code === 'auth/user-not-found') {
+        setError('Credenciales invalidas');
+      } else {
+        setError('Error al intentar iniciar sesion');
+      }
     } finally {
       setLoading(false);
     }
   };
 
+  const handleGoogleLogin = async () => {
+    setError('');
+    setGoogleLoading(true);
+    try {
+      await loginWithGoogle();
+      navigate(redirectTo, { replace: true });
+    } catch (err) {
+      const code = err?.code || '';
+      if (code === 'auth/popup-closed-by-user') {
+        setError('Cerraste la ventana de Google antes de completar el ingreso');
+      } else {
+        setError('No se pudo iniciar sesion con Google');
+      }
+    } finally {
+      setGoogleLoading(false);
+    }
+  };
+
   return (
-    <div style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }}>
-      <div className="brutal-card animate-in" style={{ width: '100%', maxWidth: '500px', padding: '50px 40px' }}>
+    <div className="auth-page" style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }}>
+      <div className="brutal-card animate-in auth-card" style={{ width: '100%', maxWidth: '500px', padding: '50px 40px' }}>
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
           <div style={{
             display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
@@ -84,6 +107,16 @@ export default function Login() {
             {loading ? 'AUTENTICANDO...' : <><LogIn size={20} /> INICIAR SESION</>}
           </button>
         </form>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '18px', marginBottom: '10px' }}>
+          <div style={{ flex: 1, height: '2px', background: 'var(--text-primary)' }} />
+          <span style={{ fontWeight: 700, fontSize: '0.85rem' }}>O</span>
+          <div style={{ flex: 1, height: '2px', background: 'var(--text-primary)' }} />
+        </div>
+
+        <button onClick={handleGoogleLogin} className="brutal-btn secondary" style={{ width: '100%' }} disabled={googleLoading}>
+          {googleLoading ? 'ABRIENDO GOOGLE...' : 'CONTINUAR CON GOOGLE'}
+        </button>
 
         <div style={{ textAlign: 'center', marginTop: '30px', fontWeight: 600 }}>
           No tienes cuenta? <Link to="/register" state={{ from: redirectTo }} style={{ color: 'var(--accent-blue)', textDecoration: 'underline' }}>Registrate</Link>
