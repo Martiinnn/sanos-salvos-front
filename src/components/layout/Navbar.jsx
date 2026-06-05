@@ -1,5 +1,5 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { PawPrint, User, LogOut, Menu, X, Bell } from 'lucide-react';
+import { PawPrint, User, LogOut, Menu, X, Bell, FileText } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { notificationsAPI } from '../../api/client';
@@ -107,6 +107,9 @@ export default function Navbar() {
           </button>
           {user ? (
             <>
+              <Link to="/my-reports" style={{ fontWeight: 700, textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <FileText size={16} /> Mis reportes
+              </Link>
               <span style={{ fontWeight: 700, textTransform: 'uppercase' }}><User size={16} style={{display:'inline', marginBottom:'-2px'}}/> {user.full_name || user.username}</span>
               <button onClick={handleLogout} className="brutal-btn" style={{ padding: '8px 16px', fontSize: '0.9rem' }}>
                 <LogOut size={16} /> SALIR
@@ -143,7 +146,12 @@ export default function Navbar() {
           </button>
           <hr style={{ border: 'none', borderTop: 'var(--border-thin)' }} />
           {user ? (
-            <button onClick={() => { handleLogout(); setIsOpen(false); }} className="brutal-btn" style={{ width: '100%' }}>SALIR</button>
+            <>
+              <Link to="/my-reports" onClick={() => setIsOpen(false)} className="brutal-btn" style={{ width: '100%' }}>
+                <FileText size={16} /> MIS REPORTES
+              </Link>
+              <button onClick={() => { handleLogout(); setIsOpen(false); }} className="brutal-btn" style={{ width: '100%' }}>SALIR</button>
+            </>
           ) : (
             <>
               <Link to="/login" onClick={() => setIsOpen(false)} className="brutal-btn" style={{ width: '100%' }}>INGRESAR</Link>

@@ -14,6 +14,7 @@ import Register from './pages/Register';
 import ReportPet from './pages/ReportPet';
 import MapView from './pages/MapView';
 import Matches from './pages/Matches';
+import MyReports from './pages/MyReports';
 import { useAuth } from './context/AuthContext';
 import { showToast } from './utils/toast';
 
@@ -46,6 +47,7 @@ function App() {
           <Route path="/report" element={<RequireAuth message="Debes iniciar sesion o registrarte para crear un reporte."><ReportPet /></RequireAuth>} />
           <Route path="/map" element={<MapView />} />
           <Route path="/matches" element={<RequireAuth message="Debes iniciar sesion para ver las coincidencias."><Matches /></RequireAuth>} />
+          <Route path="/my-reports" element={<RequireAuth message="Debes iniciar sesion para ver tus reportes."><MyReports /></RequireAuth>} />
         </Routes>
       </main>
       <Footer />

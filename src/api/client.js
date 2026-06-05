@@ -35,6 +35,7 @@ export const petsAPI = {
   getReport: (id) => api.get(`/pets/reports/${id}`),
   createReport: (data) => api.post('/pets/reports', data),
   getMyReports: () => api.get('/pets/my-reports'),
+  getMyReportsSummary: () => api.get('/pets/my-reports/summary'),
   updateStatus: (id, status) => api.patch(`/pets/reports/${id}/status`, { status }),
   getStats: () => api.get('/pets/stats'),
 };
